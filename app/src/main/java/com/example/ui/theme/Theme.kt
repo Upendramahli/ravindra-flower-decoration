@@ -51,7 +51,7 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun RavindraTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false, // Forced clean white theme as requested by user
     dynamicColor: Boolean = false, // Set false to prioritize custom signature floral theme
     content: @Composable () -> Unit
 ) {
