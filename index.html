@@ -946,7 +946,7 @@
     <div class="modal-overlay" id="pinModal">
         <div class="modal-card">
             <h3>🔒 एडमिन पिन दर्ज करें</h3>
-            <p style="font-size:12px; color:#B0BEC5; margin-bottom:12px;">एडमिन मोड में प्रवेश करने के लिए <b>केवल कॉलिंग मोबाइल नंबर</b> के आखिरी 4 अंक दर्ज करें:</p>
+            <p style="font-size:12px; color:#B0BEC5; margin-bottom:12px;">एडमिन मोड में प्रवेश करने के लिए अपना 4 अंकों का सुरक्षा पिन (PIN) दर्ज करें:</p>
             <div class="modal-field">
                 <input type="password" id="pinInput" maxlength="4" placeholder="****" onkeyup="if(event.key==='Enter') verifyAdminPin()">
             </div>
@@ -1438,7 +1438,7 @@
                 renderGrid();
                 alert('एडमिन मोड सफलता पूर्वक चालू हो गया!');
             } else {
-                alert('गलत पिन! एडमिन पासवर्ड केवल कॉलिंग मोबाइल नंबर के आखिरी 4 अंक हैं।');
+                alert('गलत पिन! कृपया सही 4 अंकों का एडमिन सुरक्षा पिन दर्ज करें।');
             }
         }
 

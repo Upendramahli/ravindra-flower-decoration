@@ -206,7 +206,7 @@ class DecorationViewModel(
             toastMessage.value = "एडमिन मोड सफलता पूर्वक अनलॉक हो गया!"
             return true
         } else {
-            pinError.value = "गलत PIN! केवल कॉलिंग मोबाइल नंबर के आखिरी 4 अंक ही एडमिन पासवर्ड हैं।"
+            pinError.value = "गलत PIN! कृपया सही 4 अंकों का एडमिन सुरक्षा पिन दर्ज करें।"
             return false
         }
     }

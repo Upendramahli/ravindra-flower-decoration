@@ -70,7 +70,7 @@ fun AdminPinDialog(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "एडमिन मोड अनलॉक करने के लिए अपने कॉलिंग मोबाइल नंबर (Calling Phone Number) के आखिरी 4 अंक दर्ज करें:",
+                    text = "एडमिन मोड अनलॉक करने के लिए अपना 4 अंकों का एडमिन सुरक्षा पिन (Admin PIN) दर्ज करें:",
                     fontSize = 13.sp,
                     color = Color.Gray,
                     textAlign = TextAlign.Center
