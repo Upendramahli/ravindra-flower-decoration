@@ -1884,6 +1884,14 @@
             navigator.serviceWorker.register('sw.js?v=' + Date.now()).then((reg) => {
                 reg.update();
             }).catch(() => {});
+
+            let isRefreshing = false;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (!isRefreshing) {
+                    isRefreshing = true;
+                    window.location.reload();
+                }
+            });
         }
 
         window.addEventListener('beforeinstallprompt', (e) => {

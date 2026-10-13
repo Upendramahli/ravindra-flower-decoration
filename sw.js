@@ -1,11 +1,11 @@
-const CACHE_NAME = 'ravindra-flower-v3';
+const CACHE_NAME = 'ravindra-flower-v4';
 
 // Install Service Worker and skip waiting immediately
 self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Activate new Service Worker and clear old caches
+// Activate new Service Worker, delete all old caches, and claim clients
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -16,29 +16,44 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
-  return self.clients.claim();
 });
 
-// Network First Strategy: Always try network first to ensure live updates
+// Network First Strategy with strict no-cache for HTML navigation
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
-  event.respondWith(
-    fetch(event.request)
-      .then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-        }
-        return networkResponse;
-      })
-      .catch(() => {
-        // Fallback to cache when offline
-        return caches.match(event.request);
-      })
-  );
+  const isHtml = event.request.mode === 'navigate' ||
+                 (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html')) ||
+                 event.request.url.endsWith('/') ||
+                 event.request.url.includes('index.html');
+
+  if (isHtml) {
+    // For HTML, always fetch fresh from network to reflect UI changes instantly
+    event.respondWith(
+      fetch(event.request, { cache: 'no-store' })
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request))
+    );
+  } else {
+    // For static assets, network first with cache fallback
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request))
+    );
+  }
 });
