@@ -1091,11 +1091,18 @@
         </div>
     </div>
 
-    <!-- Firebase Web SDK Compat Libraries -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- Firebase Modular SDK setup targeting database "ai-studio-android-ravindra-e0c7128d-827a-4ca8-99b0-bf5fd6d3b325" -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getFirestore, 
+            collection, 
+            doc, 
+            setDoc, 
+            deleteDoc, 
+            onSnapshot 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    <script>
         const firebaseConfig = {
             apiKey: "AIzaSyBBV9CHKtYdx1kFK0u0dJQAlCxRwRBSjDs",
             authDomain: "gen-lang-client-0040997999.firebaseapp.com",
@@ -1105,15 +1112,50 @@
             appId: "1:516006774307:android:50698f97d46c3c6d885396"
         };
 
-        let db = null;
         try {
-            if (typeof firebase !== 'undefined') {
-                firebase.initializeApp(firebaseConfig);
-                db = firebase.firestore(firebase.app(), "ai-studio-android-ravindra-e0c7128d-827a-4ca8-99b0-bf5fd6d3b325");
-            }
+            const app = initializeApp(firebaseConfig);
+            const firestoreDb = getFirestore(app, "ai-studio-android-ravindra-e0c7128d-827a-4ca8-99b0-bf5fd6d3b325");
+
+            window.db = {
+                collection: function(collName) {
+                    return {
+                        onSnapshot: function(callback, errCallback) {
+                            const colRef = collection(firestoreDb, collName);
+                            return onSnapshot(colRef, (snapshot) => {
+                                callback(snapshot);
+                            }, (err) => {
+                                if (errCallback) errCallback(err);
+                            });
+                        },
+                        doc: function(docId) {
+                            const docRef = doc(firestoreDb, collName, docId);
+                            return {
+                                set: function(data, options) {
+                                    const merge = options && options.merge;
+                                    return setDoc(docRef, data, { merge: !!merge });
+                                },
+                                delete: function() {
+                                    return deleteDoc(docRef);
+                                },
+                                onSnapshot: function(callback, errCallback) {
+                                    return onSnapshot(docRef, (docSnap) => {
+                                        callback(docSnap);
+                                    }, (err) => {
+                                        if (errCallback) errCallback(err);
+                                    });
+                                }
+                            };
+                        }
+                    };
+                }
+            };
+            console.log("Connected to Firestore database: ai-studio-android-ravindra-e0c7128d-827a-4ca8-99b0-bf5fd6d3b325");
         } catch (e) {
-            console.warn("Firebase Web SDK init warning:", e);
+            console.warn("Firebase Web SDK init error:", e);
         }
+    </script>
+
+    <script>
 
         const initialData = [
             {
@@ -1207,7 +1249,14 @@
         let editingItemId = null;
 
         // Realtime Firestore Snapshot Listener for Live Sync across all devices
-        if (db) {
+        function initFirestoreListeners() {
+            if (!window.db) {
+                setTimeout(initFirestoreListeners, 100);
+                return;
+            }
+
+            const db = window.db;
+
             db.collection("decorations").onSnapshot((snapshot) => {
                 if (snapshot && !snapshot.empty) {
                     const cloudItems = [];
@@ -1262,6 +1311,8 @@
                 console.warn("Contact info listener error:", err);
             });
         }
+
+        initFirestoreListeners();
 
         function openFilterModal() {
             document.getElementById('sortSelect').value = currentSort;
@@ -1806,6 +1857,7 @@
                     localStorage.setItem('ravindra_decor_items', JSON.stringify(decorItems));
                     renderGrid();
 
+                    const db = window.db;
                     if (db) {
                         await db.collection("decorations").doc(docId).set(fullItem, { merge: true });
                     }
@@ -1818,6 +1870,7 @@
                     localStorage.setItem('ravindra_decor_items', JSON.stringify(decorItems));
                     renderGrid();
 
+                    const db = window.db;
                     if (db) {
                         await db.collection("decorations").doc(docId).set(newItem);
                     }
@@ -1842,6 +1895,7 @@
                 localStorage.setItem('ravindra_decor_items', JSON.stringify(decorItems));
                 renderGrid();
 
+                const db = window.db;
                 if (db) {
                     try {
                         await db.collection("decorations").doc(docId).delete();
