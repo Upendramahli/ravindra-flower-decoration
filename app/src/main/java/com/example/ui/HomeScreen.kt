@@ -95,6 +95,7 @@ fun HomeScreen(
     val showAdminPinDialog by viewModel.showAdminPinDialog.collectAsState()
     val showEditContactDialog by viewModel.showEditContactDialog.collectAsState()
     val showInstallAppDialog by viewModel.showInstallAppDialog.collectAsState()
+    val showFilterDialog by viewModel.showFilterDialog.collectAsState()
 
     val isAppInstalled by viewModel.isAppInstalled.collectAsState()
     val isBannerDismissed by viewModel.isBannerDismissed.collectAsState()
@@ -439,6 +440,13 @@ fun HomeScreen(
         InstallAppDialog(
             viewModel = viewModel,
             onDismiss = { viewModel.showInstallAppDialog.value = false }
+        )
+    }
+
+    if (showFilterDialog) {
+        com.example.ui.dialogs.FilterDialog(
+            viewModel = viewModel,
+            onDismiss = { viewModel.showFilterDialog.value = false }
         )
     }
 

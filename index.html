@@ -245,21 +245,26 @@
             margin-top: 2px;
         }
 
-        /* Yellow Tag Capsule (Matching Image 2) */
+        /* Yellow Tag Capsule (Single Line on All Mobile Screens) */
         .yellow-tag-capsule {
             background: #FFF9C4;
             border: 2px solid #FBC02D;
             border-radius: 20px;
-            padding: 8px 12px;
-            margin: 12px 0 16px;
+            padding: 6px 10px;
+            margin: 10px auto 14px;
             color: #880E4F;
-            font-size: 13px;
+            font-size: clamp(10px, 3.1vw, 12px);
             font-weight: 800;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 4px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         /* Header Address Box above Direct Call & WhatsApp buttons */
@@ -364,6 +369,26 @@
             color: #880E4F;
             cursor: pointer;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .filter-icon-btn.active {
+            background: #880E4F;
+            color: #FFFFFF;
+            border-color: #880E4F;
+        }
+
+        .filter-active-dot {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 10px;
+            height: 10px;
+            background-color: #FFB74D;
+            border: 2px solid #FFFFFF;
+            border-radius: 50%;
+            display: none;
         }
 
         /* Category Chips Horizontal Scroll */
@@ -785,11 +810,11 @@
             </div>
             <div class="subtitle">Ravindra Flower Decoration & Event Organizer</div>
 
-            <!-- Yellow Tag Capsule (Matching Image 2) -->
+            <!-- Yellow Tag Capsule (Single Line on All Screens) -->
             <div class="yellow-tag-capsule">
-                <span class="material-icons-round" style="font-size:16px; color:#880E4F;">star</span>
-                ✨ शादी | हल्दी-मेहंदी | मण्डप | कार एवं पार्टी सजावट ✨
-                <span class="material-icons-round" style="font-size:16px; color:#880E4F;">star</span>
+                <span class="material-icons-round" style="font-size:14px; color:#880E4F; flex-shrink:0;">star</span>
+                <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">✨ शादी | हल्दी-मेहंदी | मण्डप | कार एवं पार्टी सजावट ✨</span>
+                <span class="material-icons-round" style="font-size:14px; color:#880E4F; flex-shrink:0;">star</span>
             </div>
         </div>
 
@@ -823,8 +848,9 @@
                 <span class="material-icons-round" style="color:#8D7A84;">search</span>
                 <input type="text" id="searchInput" placeholder="खोजें: स्टेज, मण्डप, गेंदा, कार सजावट...">
             </div>
-            <div class="filter-icon-btn" onclick="toggleSort()">
+            <div class="filter-icon-btn" id="filterIconBtn" onclick="openFilterModal()" title="फ़िल्टर एवं सॉर्टिंग">
                 <span class="material-icons-round">filter_list</span>
+                <div class="filter-active-dot" id="filterActiveDot"></div>
             </div>
         </div>
     </div>
@@ -861,6 +887,58 @@
         <div class="contact-row">
             <span class="material-icons-round" style="font-size:16px; color:#F48FB1;">schedule</span>
             <span id="businessHoursTxt">समय: सुबह 7:00 बजे से रात 10:00 बजे तक (प्रतिदिन)</span>
+        </div>
+    </div>
+
+    <!-- Modal 3: Filter & Sort Dialog -->
+    <div class="modal-overlay" id="filterModal">
+        <div class="modal-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                <h3 style="margin:0; display:flex; align-items:center; gap:6px; font-size:16px;">
+                    <span class="material-icons-round" style="color:#880E4F;">tune</span> फ़िल्टर एवं सॉर्टिंग (Filter & Sort)
+                </h3>
+                <button onclick="closeModal('filterModal')" style="background:none; border:none; color:#555; font-size:20px; cursor:pointer;">✕</button>
+            </div>
+
+            <div class="modal-field">
+                <label>1. सॉर्टिंग क्रम (Sort Order)</label>
+                <select id="sortSelect">
+                    <option value="none">डिफ़ॉल्ट क्रम (Default)</option>
+                    <option value="low_high">कीमत: कम से अधिक (Price: Low to High)</option>
+                    <option value="high_low">कीमत: अधिक से कम (Price: High to Low)</option>
+                    <option value="name_az">नाम: A से Z (Name A-Z)</option>
+                </select>
+            </div>
+
+            <div class="modal-field">
+                <label>2. अधिकतम बजट कीमत (Max Price Limit)</label>
+                <select id="priceRangeSelect">
+                    <option value="all">सभी कीमतें (All Prices)</option>
+                    <option value="5000">₹5,000 तक (Under ₹5,000)</option>
+                    <option value="15000">₹15,000 तक (Under ₹15,000)</option>
+                    <option value="30000">₹30,000 तक (Under ₹30,000)</option>
+                    <option value="50000">₹50,000 तक (Under ₹50,000)</option>
+                </select>
+            </div>
+
+            <div class="modal-field">
+                <label>3. कैटेगरी (Category)</label>
+                <select id="filterCatSelect">
+                    <option value="सभी">सभी कैटेगरीज (All Categories)</option>
+                    <option value="Stage Decor">Stage Decor</option>
+                    <option value="Mandap">Mandap</option>
+                    <option value="Haldi & Mehendi">Haldi & Mehendi</option>
+                    <option value="Entrance Arch">Entrance Arch</option>
+                    <option value="Car Decor">Car Decor</option>
+                    <option value="Room Decor">Room Decor</option>
+                    <option value="Theme Setup">Theme Setup</option>
+                </select>
+            </div>
+
+            <div class="modal-btns" style="margin-top:16px;">
+                <button class="modal-btn btn-cancel" onclick="resetFilters()">रीसेट करें</button>
+                <button class="modal-btn btn-confirm" onclick="applyFilters()">लागू करें</button>
+            </div>
         </div>
     </div>
 
@@ -1032,6 +1110,8 @@
         let decorItems = JSON.parse(localStorage.getItem('ravindra_decor_items')) || initialData;
         let currentCategory = 'सभी';
         let searchQuery = '';
+        let currentSort = 'none';
+        let maxPriceFilter = 'all';
         let isAdmin = false;
         let editingItemId = null;
 
@@ -1089,18 +1169,91 @@
             });
         }
 
+        function openFilterModal() {
+            document.getElementById('sortSelect').value = currentSort;
+            document.getElementById('priceRangeSelect').value = maxPriceFilter;
+            document.getElementById('filterCatSelect').value = currentCategory;
+            document.getElementById('filterModal').style.display = 'flex';
+        }
+
+        function applyFilters() {
+            currentSort = document.getElementById('sortSelect').value;
+            maxPriceFilter = document.getElementById('priceRangeSelect').value;
+            const newCat = document.getElementById('filterCatSelect').value;
+
+            if (newCat !== currentCategory) {
+                currentCategory = newCat;
+                document.querySelectorAll('.cat-chip').forEach(chip => {
+                    const txt = chip.innerText.trim();
+                    if (txt === newCat || (newCat === 'सभी' && txt === 'सभी')) {
+                        chip.classList.add('active');
+                    } else {
+                        chip.classList.remove('active');
+                    }
+                });
+            }
+
+            updateFilterBadge();
+            closeModal('filterModal');
+            renderGrid();
+        }
+
+        function resetFilters() {
+            currentSort = 'none';
+            maxPriceFilter = 'all';
+            currentCategory = 'सभी';
+            searchQuery = '';
+            const searchEl = document.getElementById('searchInput');
+            if (searchEl) searchEl.value = '';
+
+            document.querySelectorAll('.cat-chip').forEach(chip => {
+                if (chip.innerText.trim() === 'सभी') chip.classList.add('active');
+                else chip.classList.remove('active');
+            });
+
+            updateFilterBadge();
+            closeModal('filterModal');
+            renderGrid();
+        }
+
+        function updateFilterBadge() {
+            const dot = document.getElementById('filterActiveDot');
+            const btn = document.getElementById('filterIconBtn');
+            const isFilterActive = currentSort !== 'none' || maxPriceFilter !== 'all' || currentCategory !== 'सभी' || searchQuery !== '';
+
+            if (dot) dot.style.display = isFilterActive ? 'block' : 'none';
+            if (btn) {
+                if (isFilterActive) btn.classList.add('active');
+                else btn.classList.remove('active');
+            }
+        }
+
         function renderGrid() {
             const grid = document.getElementById('decorGrid');
             if (!grid) return;
             grid.innerHTML = '';
 
-            const filtered = decorItems.filter(item => {
+            let filtered = decorItems.filter(item => {
                 const matchCategory = (currentCategory === 'सभी' || item.category === currentCategory);
                 const matchSearch = (item.title || '').toLowerCase().includes(searchQuery) ||
                                     (item.description || '').toLowerCase().includes(searchQuery) ||
                                     (item.flowersUsed || '').toLowerCase().includes(searchQuery);
-                return matchCategory && matchSearch;
+                let matchPrice = true;
+                if (maxPriceFilter !== 'all') {
+                    const maxP = parseFloat(maxPriceFilter);
+                    matchPrice = (Number(item.price) <= maxP);
+                }
+                return matchCategory && matchSearch && matchPrice;
             });
+
+            // Sort logic
+            if (currentSort === 'low_high') {
+                filtered.sort((a, b) => (Number(a.price) || 0) - (Number(b.price) || 0));
+            } else if (currentSort === 'high_low') {
+                filtered.sort((a, b) => (Number(b.price) || 0) - (Number(a.price) || 0));
+            } else if (currentSort === 'name_az') {
+                filtered.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+            }
 
             if (filtered.length === 0) {
                 grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 40px; color: #888;">कोई डेकोरेशन नहीं मिली</div>`;

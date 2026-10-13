@@ -243,30 +243,32 @@ fun HeroHeader(
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Star,
                                 contentDescription = null,
                                 tint = RoseDarkRed,
-                                modifier = Modifier.size(18.dp)
+                                modifier = Modifier.size(14.dp)
                             )
-                            Spacer(modifier = Modifier.width(6.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
                             Text(
                                 text = "✨ शादी | हल्दी-मेहंदी | मण्डप | कार एवं पार्टी सजावट ✨",
                                 style = MaterialTheme.typography.titleMedium.copy(
                                     color = RoseDarkRed,
                                     fontWeight = FontWeight.ExtraBold,
                                     textAlign = TextAlign.Center,
-                                    fontSize = 14.sp
-                                )
+                                    fontSize = 11.5.sp
+                                ),
+                                maxLines = 1,
+                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                             )
-                            Spacer(modifier = Modifier.width(6.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
                             Icon(
                                 imageVector = Icons.Default.Star,
                                 contentDescription = null,
                                 tint = RoseDarkRed,
-                                modifier = Modifier.size(18.dp)
+                                modifier = Modifier.size(14.dp)
                             )
                         }
                     }

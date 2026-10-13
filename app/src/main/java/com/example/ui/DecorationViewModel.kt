@@ -26,6 +26,7 @@ class DecorationViewModel(
     val searchQuery = MutableStateFlow("")
     val selectedCategory = MutableStateFlow("सभी")
     val priceSort = MutableStateFlow(PriceSortOption.NONE)
+    val maxPriceLimit = MutableStateFlow(0.0)
 
     val isAdminMode = MutableStateFlow(false)
     val adminPinInput = MutableStateFlow("")
@@ -34,7 +35,7 @@ class DecorationViewModel(
     val ownerPhone = MutableStateFlow("+91 98765 43210")
     val ownerPhone2 = MutableStateFlow("+91 91234 56789")
     val ownerName = MutableStateFlow("रविंद्र सैनी (Ravindra Saini)")
-    val shopAddress = MutableStateFlow("दुकान नं. 12, मेन मार्केट, फ्लावर स्ट्रीट, जीटी रोड")
+    val shopAddress = MutableStateFlow("दुकान नं. 12, Мен मार्केट, फ्लावर स्ट्रीट, जीटी रोड")
     val businessHours = MutableStateFlow("सुबह 7:00 बजे से रात 10:00 बजे तक (प्रतिदिन)")
     val websiteUrl = MutableStateFlow("www.ravindraflower.com")
 
@@ -45,10 +46,22 @@ class DecorationViewModel(
     val showAdminPinDialog = MutableStateFlow(false)
     val showEditContactDialog = MutableStateFlow(false)
     val showInstallAppDialog = MutableStateFlow(false)
+    val showFilterDialog = MutableStateFlow(false)
     val toastMessage = MutableStateFlow<String?>(null)
 
     val isAppInstalled = MutableStateFlow(false)
     val isBannerDismissed = MutableStateFlow(false)
+
+    fun setMaxPriceLimit(limit: Double) {
+        maxPriceLimit.value = limit
+    }
+
+    fun resetFilters() {
+        searchQuery.value = ""
+        selectedCategory.value = "सभी"
+        priceSort.value = PriceSortOption.NONE
+        maxPriceLimit.value = 0.0
+    }
 
     fun loadSavedContactDetails(context: Context) {
         val prefs = context.getSharedPreferences("ravindra_shop_prefs", Context.MODE_PRIVATE)
@@ -120,12 +133,17 @@ class DecorationViewModel(
         repository.allDecorations,
         searchQuery,
         selectedCategory,
-        priceSort
-    ) { items, query, category, sort ->
+        priceSort,
+        maxPriceLimit
+    ) { items, query, category, sort, maxPrice ->
         var filtered = items
 
         if (category != "सभी" && category != "All") {
             filtered = filtered.filter { it.category.equals(category, ignoreCase = true) }
+        }
+
+        if (maxPrice > 0.0) {
+            filtered = filtered.filter { it.price <= maxPrice }
         }
 
         if (query.isNotBlank()) {

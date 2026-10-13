@@ -106,28 +106,23 @@ fun SearchBarAndFilters(
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            // Sort Toggle Button
+            // Filter & Sort Button
             Surface(
                 onClick = {
-                    val nextSort = when (priceSort) {
-                        PriceSortOption.NONE -> PriceSortOption.LOW_TO_HIGH
-                        PriceSortOption.LOW_TO_HIGH -> PriceSortOption.HIGH_TO_LOW
-                        PriceSortOption.HIGH_TO_LOW -> PriceSortOption.NONE
-                    }
-                    viewModel.onPriceSortChange(nextSort)
+                    viewModel.showFilterDialog.value = true
                 },
                 shape = RoundedCornerShape(16.dp),
-                color = if (priceSort != PriceSortOption.NONE) MarigoldOrange else MaterialTheme.colorScheme.surfaceVariant,
+                color = if (priceSort != PriceSortOption.NONE) RoseDarkRed else MaterialTheme.colorScheme.surfaceVariant,
                 contentColor = if (priceSort != PriceSortOption.NONE) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.testTag("price_sort_toggle_btn")
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 14.dp)
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 14.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Sort,
-                        contentDescription = "Sort Price",
+                        imageVector = Icons.Default.FilterList,
+                        contentDescription = "Filter & Sort",
                         modifier = Modifier.size(20.dp)
                     )
                     if (priceSort != PriceSortOption.NONE) {
