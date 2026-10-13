@@ -23,7 +23,7 @@ class FirestoreRepository(
     fun getRealtimeDecorations(): Flow<List<DecorationItem>> = callbackFlow {
         val listenerRegistration = collectionRef.addSnapshotListener { snapshot, error ->
             if (error != null) {
-                close(error)
+                android.util.Log.e("FirestoreRepository", "Error getting decorations", error)
                 return@addSnapshotListener
             }
 
@@ -32,7 +32,11 @@ class FirestoreRepository(
                     val data = doc.data ?: return@mapNotNull null
                     DecorationItem(
                         docId = doc.id,
-                        id = (data["id"] as? Long)?.toInt() ?: doc.id.hashCode(),
+                        id = when (val idVal = data["id"]) {
+                            is Number -> idVal.toInt()
+                            is String -> idVal.toIntOrNull() ?: doc.id.hashCode()
+                            else -> doc.id.hashCode()
+                        },
                         title = data["title"] as? String ?: "",
                         category = data["category"] as? String ?: "",
                         price = (data["price"] as? Number)?.toDouble() ?: 0.0,
@@ -49,6 +53,54 @@ class FirestoreRepository(
 
         awaitClose {
             listenerRegistration.remove()
+        }
+    }
+
+    fun getRealtimeContactInfo(): Flow<Map<String, String>> = callbackFlow {
+        val listener = firestore.collection("app_config").document("contact")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    android.util.Log.e("FirestoreRepository", "Error getting contact info", error)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    val data = snapshot.data ?: emptyMap()
+                    val result = mapOf(
+                        "ownerName" to (data["ownerName"] as? String ?: ""),
+                        "ownerPhone" to (data["ownerPhone"] as? String ?: ""),
+                        "ownerPhone2" to (data["ownerPhone2"] as? String ?: ""),
+                        "shopAddress" to (data["shopAddress"] as? String ?: ""),
+                        "businessHours" to (data["businessHours"] as? String ?: ""),
+                        "websiteUrl" to (data["websiteUrl"] as? String ?: "")
+                    )
+                    trySend(result)
+                }
+            }
+        awaitClose {
+            listener.remove()
+        }
+    }
+
+    suspend fun saveContactInfo(
+        ownerName: String,
+        ownerPhone: String,
+        ownerPhone2: String,
+        shopAddress: String,
+        businessHours: String,
+        websiteUrl: String
+    ) {
+        val map = mapOf(
+            "ownerName" to ownerName,
+            "ownerPhone" to ownerPhone,
+            "ownerPhone2" to ownerPhone2,
+            "shopAddress" to shopAddress,
+            "businessHours" to businessHours,
+            "websiteUrl" to websiteUrl
+        )
+        try {
+            firestore.collection("app_config").document("contact").set(map).await()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

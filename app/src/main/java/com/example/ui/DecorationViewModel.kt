@@ -11,6 +11,7 @@ import com.example.data.DecorationRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -35,7 +36,7 @@ class DecorationViewModel(
     val ownerPhone = MutableStateFlow("+91 98765 43210")
     val ownerPhone2 = MutableStateFlow("+91 91234 56789")
     val ownerName = MutableStateFlow("रविंद्र सैनी (Ravindra Saini)")
-    val shopAddress = MutableStateFlow("दुकान नं. 12, Мен मार्केट, फ्लावर स्ट्रीट, जीटी रोड")
+    val shopAddress = MutableStateFlow("दुकान नं. 12, मेन मार्केट, फ्लावर स्ट्रीट, जीटी रोड")
     val businessHours = MutableStateFlow("सुबह 7:00 बजे से रात 10:00 बजे तक (प्रतिदिन)")
     val websiteUrl = MutableStateFlow("www.ravindraflower.com")
 
@@ -51,6 +52,32 @@ class DecorationViewModel(
 
     val isAppInstalled = MutableStateFlow(false)
     val isBannerDismissed = MutableStateFlow(false)
+
+    init {
+        repository.contactInfoFlow?.let { flow ->
+            viewModelScope.launch {
+                flow
+                    .catch { e ->
+                        android.util.Log.e("DecorationViewModel", "Error in contactInfoFlow", e)
+                    }
+                    .collect { data ->
+                        val name = data["ownerName"]
+                        val phone = data["ownerPhone"]
+                        val phone2 = data["ownerPhone2"]
+                        val address = data["shopAddress"]
+                        val hours = data["businessHours"]
+                        val url = data["websiteUrl"]
+
+                        if (!name.isNullOrBlank()) ownerName.value = name
+                        if (!phone.isNullOrBlank()) ownerPhone.value = phone
+                        if (!phone2.isNullOrBlank()) ownerPhone2.value = phone2
+                        if (!address.isNullOrBlank()) shopAddress.value = address
+                        if (!hours.isNullOrBlank()) businessHours.value = hours
+                        if (!url.isNullOrBlank()) websiteUrl.value = url
+                    }
+            }
+        }
+    }
 
     fun setMaxPriceLimit(limit: Double) {
         maxPriceLimit.value = limit
@@ -98,22 +125,39 @@ class DecorationViewModel(
         hours: String,
         website: String = "www.ravindraflower.com"
     ) {
+        val finalName = name.ifBlank { "रविंद्र सैनी" }
+        val finalPhone = phone.ifBlank { "+91 98765 43210" }
+        val finalAddress = address.ifBlank { "मुख्य बाज़ार (शहर)" }
+        val finalHours = hours.ifBlank { "सुबह 7:00 से रात 10:00" }
+        val finalWebsite = website.ifBlank { "www.ravindraflower.com" }
+
         val prefs = context.getSharedPreferences("ravindra_shop_prefs", Context.MODE_PRIVATE)
         prefs.edit()
-            .putString("owner_name", name.ifBlank { "रविंद्र सैनी" })
-            .putString("owner_phone", phone.ifBlank { "+91 98765 43210" })
+            .putString("owner_name", finalName)
+            .putString("owner_phone", finalPhone)
             .putString("owner_phone2", phone2)
-            .putString("shop_address", address.ifBlank { "मुख्य बाज़ार (शहर)" })
-            .putString("business_hours", hours.ifBlank { "सुबह 7:00 से रात 10:00" })
-            .putString("website_url", website.ifBlank { "www.ravindraflower.com" })
+            .putString("shop_address", finalAddress)
+            .putString("business_hours", finalHours)
+            .putString("website_url", finalWebsite)
             .apply()
 
-        ownerName.value = name.ifBlank { "रविंद्र सैनी" }
-        ownerPhone.value = phone.ifBlank { "+91 98765 43210" }
+        ownerName.value = finalName
+        ownerPhone.value = finalPhone
         ownerPhone2.value = phone2
-        shopAddress.value = address.ifBlank { "मुख्य बाज़ार (शहर)" }
-        businessHours.value = hours.ifBlank { "सुबह 7:00 से रात 10:00" }
-        websiteUrl.value = website.ifBlank { "www.ravindraflower.com" }
+        shopAddress.value = finalAddress
+        businessHours.value = finalHours
+        websiteUrl.value = finalWebsite
+
+        viewModelScope.launch {
+            repository.saveContactInfoToCloud(
+                name = finalName,
+                phone = finalPhone,
+                phone2 = phone2,
+                address = finalAddress,
+                hours = finalHours,
+                website = finalWebsite
+            )
+        }
 
         toastMessage.value = "संपर्क व वेबसाइट जानकारी अपडेट हो गई!"
     }

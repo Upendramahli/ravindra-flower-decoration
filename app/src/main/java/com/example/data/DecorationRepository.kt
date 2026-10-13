@@ -18,6 +18,19 @@ class DecorationRepository(
         dao.getAllDecorations()
     }
 
+    val contactInfoFlow: Flow<Map<String, String>>? = firestoreRepository?.getRealtimeContactInfo()
+
+    suspend fun saveContactInfoToCloud(
+        name: String,
+        phone: String,
+        phone2: String,
+        address: String,
+        hours: String,
+        website: String
+    ) {
+        firestoreRepository?.saveContactInfo(name, phone, phone2, address, hours, website)
+    }
+
     suspend fun insert(item: DecorationItem) {
         if (firestoreRepository != null) {
             firestoreRepository.saveDecoration(item)

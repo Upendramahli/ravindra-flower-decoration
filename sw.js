@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ravindra-flower-v2';
+const CACHE_NAME = 'ravindra-flower-v3';
 
 // Install Service Worker and skip waiting immediately
 self.addEventListener('install', (event) => {
