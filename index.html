@@ -885,8 +885,11 @@
     <div class="admin-fab" id="adminFab" onclick="openAddModal()">+</div>
 
     <!-- Contact & Address Section -->
-    <div class="contact-box">
-        <h3><span class="material-icons-round">store</span> संपर्क विवरण एवं दुकान का पता</h3>
+    <div class="contact-box" style="position: relative;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <h3 style="margin: 0;"><span class="material-icons-round">store</span> संपर्क विवरण एवं दुकान का पता</h3>
+            <button id="editContactBtn" onclick="openEditContactModal()" style="display: none; background: #FFB74D; color: #5D4037; border: none; padding: 6px 12px; border-radius: 10px; font-weight: 700; font-size: 12px; cursor: pointer;">✏️ पता बदलें</button>
+        </div>
         <div class="contact-row">
             <span class="material-icons-round" style="font-size:16px; color:#F48FB1;">person</span>
             <span id="ownerNameTxt">प्रोपराइटर: रविंद्र सैनी (Ravindra Saini)</span>
@@ -1016,6 +1019,41 @@
             <div class="modal-btns">
                 <button class="modal-btn btn-cancel" onclick="closeModal('itemModal')">रद्द करें</button>
                 <button class="modal-btn btn-confirm" onclick="saveItem()">सेव करें</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Edit Contact & Address Dialog -->
+    <div class="modal-overlay" id="editContactModal">
+        <div class="modal-card">
+            <h3>✏️ दुकान का पता व संपर्क बदलें</h3>
+            <div class="modal-field">
+                <label>मालिक का नाम (Owner Name)</label>
+                <input type="text" id="editOwnerName">
+            </div>
+            <div class="modal-field">
+                <label>प्राथमिक मोबाइल / WhatsApp नंबर</label>
+                <input type="text" id="editOwnerPhone" placeholder="+91 9876543210">
+            </div>
+            <div class="modal-field">
+                <label>दूसरा मोबाइल नंबर (वैकल्पिक)</label>
+                <input type="text" id="editOwnerPhone2" placeholder="+91 9123456789">
+            </div>
+            <div class="modal-field">
+                <label>दुकान का पूरा पता (Shop Address)</label>
+                <textarea id="editShopAddress" rows="2"></textarea>
+            </div>
+            <div class="modal-field">
+                <label>दुकान खुलने का समय (Business Hours)</label>
+                <input type="text" id="editBusinessHours">
+            </div>
+            <div class="modal-field">
+                <label>वेबसाइट लिंक (Website Domain)</label>
+                <input type="text" id="editWebsiteUrl">
+            </div>
+            <div class="modal-btns">
+                <button class="modal-btn btn-cancel" onclick="closeModal('editContactModal')">रद्द करें</button>
+                <button class="modal-btn btn-confirm" onclick="saveContactDetailsWeb()">सेव करें</button>
             </div>
         </div>
     </div>
@@ -1569,6 +1607,8 @@
                 document.getElementById('adminBar').style.display = 'flex';
                 document.getElementById('adminFab').style.display = 'flex';
                 document.getElementById('adminBadgeBtn').style.display = 'flex';
+                const editBtn = document.getElementById('editContactBtn');
+                if (editBtn) editBtn.style.display = 'block';
                 renderGrid();
                 alert('एडमिन मोड सफलता पूर्वक चालू हो गया!');
             } else {
@@ -1581,7 +1621,58 @@
             document.getElementById('adminBar').style.display = 'none';
             document.getElementById('adminFab').style.display = 'none';
             document.getElementById('adminBadgeBtn').style.display = 'none';
+            const editBtn = document.getElementById('editContactBtn');
+            if (editBtn) editBtn.style.display = 'none';
             renderGrid();
+        }
+
+        function openEditContactModal() {
+            const ownerTxt = document.getElementById('ownerNameTxt').innerText.replace('प्रोपराइटर: ', '');
+            const addressTxt = document.getElementById('shopAddressTxt').innerText.replace('पता: ', '');
+            const hoursTxt = document.getElementById('businessHoursTxt').innerText.replace('समय: ', '');
+            const callBtnHref = document.getElementById('callBtn').href || '';
+            const phoneVal = callBtnHref.replace('tel:', '');
+
+            document.getElementById('editOwnerName').value = ownerTxt;
+            document.getElementById('editOwnerPhone').value = phoneVal;
+            document.getElementById('editOwnerPhone2').value = '';
+            document.getElementById('editShopAddress').value = addressTxt;
+            document.getElementById('editBusinessHours').value = hoursTxt;
+            document.getElementById('editWebsiteUrl').value = window.location.hostname || 'www.ravindraflower.com';
+
+            document.getElementById('editContactModal').style.display = 'flex';
+        }
+
+        async function saveContactDetailsWeb() {
+            const name = document.getElementById('editOwnerName').value;
+            const phone = document.getElementById('editOwnerPhone').value;
+            const phone2 = document.getElementById('editOwnerPhone2').value;
+            const address = document.getElementById('editShopAddress').value;
+            const hours = document.getElementById('editBusinessHours').value;
+            const website = document.getElementById('editWebsiteUrl').value;
+
+            const contactData = {
+                ownerName: name || 'रविंद्र सैनी',
+                ownerPhone: phone || '+91 9876543210',
+                ownerPhone2: phone2 || '',
+                shopAddress: address || 'मुख्य बाज़ार',
+                businessHours: hours || 'सुबह 7:00 से रात 10:00',
+                websiteUrl: website || 'www.ravindraflower.com'
+            };
+
+            try {
+                const db = window.db;
+                if (db) {
+                    await db.collection("app_config").doc("contact").set(contactData, { merge: true });
+                    alert('संपर्क विवरण सफलता पूर्वक अपडेट हो गया!');
+                    closeModal('editContactModal');
+                } else {
+                    alert('डेटाबेस कनेक्टेड नहीं है।');
+                }
+            } catch (err) {
+                console.error("Error updating contact:", err);
+                alert("अपडेट करने में त्रुटि: " + err.message);
+            }
         }
 
         /* --- 4:3 Image Upload, Zoom & Crop System --- */
