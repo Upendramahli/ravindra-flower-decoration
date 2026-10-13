@@ -450,16 +450,22 @@
         .card-hero-wrap {
             position: relative;
             width: 100%;
+            height: 0;
+            padding-bottom: 75%; /* Guaranteed 4:3 aspect ratio (3/4 = 75%) */
             aspect-ratio: 4 / 3;
             overflow: hidden;
             background: #F3F4F6;
+            cursor: pointer;
         }
 
         .card-hero-wrap img {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            aspect-ratio: 4 / 3;
             object-fit: cover;
+            display: block;
         }
 
         .badge-category {
@@ -1009,33 +1015,70 @@
         </div>
     </div>
 
-    <!-- Modal 3: 4:3 Image Zoom & Crop Editor -->
+    <!-- Modal 3: Package Detail Dialog (Full 4:3 Photo Preview) -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-card" style="max-width: 480px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                <div>
+                    <span id="detailCatBadge" style="background:#D81B60; color:white; font-size:11px; font-weight:700; padding:4px 10px; border-radius:12px;">Category</span>
+                    <h3 id="detailTitle" style="margin-top:6px; font-size:18px; color:#111827;">Package Title</h3>
+                </div>
+                <button onclick="closeModal('detailModal')" style="background:none; border:none; color:#666; font-size:22px; cursor:pointer; padding:2px 8px;">✕</button>
+            </div>
+
+            <!-- 4:3 Aspect Ratio Hero Image -->
+            <div style="position: relative; width: 100%; height: 0; padding-bottom: 75%; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 14px; background: #000; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.15);">
+                <img id="detailImg" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                <div id="detailPriceTag" style="position: absolute; bottom: 12px; right: 12px; background: #E65100; color: white; font-size: 16px; font-weight: 800; padding: 6px 14px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">₹0</div>
+            </div>
+
+            <div style="font-size: 13px; color: #880E4F; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                <span class="material-icons-round" style="font-size:16px;">local_florist</span>
+                <span id="detailFlowers">Flowers Used</span>
+            </div>
+
+            <div id="detailDesc" style="font-size: 13px; color: #374151; line-height: 1.5; margin-bottom: 16px; background: #F9FAFB; padding: 10px; border-radius: 10px; border: 1px solid #F3F4F6;">
+                Description
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <a id="detailWhatsappBtn" href="#" target="_blank" class="hero-btn btn-whatsapp" style="flex:1; padding:12px; border-radius:12px; font-size:14px;">
+                    <span class="material-icons-round" style="font-size:18px;">chat</span> WhatsApp बुकिंग
+                </a>
+                <a id="detailCallBtn" href="tel:919876543210" class="hero-btn btn-call" style="flex:1; padding:12px; border-radius:12px; font-size:14px; border:1px solid #880E4F;">
+                    <span class="material-icons-round" style="font-size:18px;">call</span> कॉल करें
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 4: 4:3 Image Zoom & Crop Editor -->
     <div class="modal-overlay" id="cropModal" style="z-index: 2000;">
         <div class="modal-card" style="max-width: 420px; text-align: center;">
-            <h3 style="margin-bottom: 6px;">📷 4:3 फोटो एडिटर (Zoom & Crop)</h3>
-            <p style="font-size: 12px; color: #666; margin-bottom: 12px;">गैलरी फोटो को 4:3 रेशियो में ज़ूम इन/आउट या एड्ज़स्ट करें:</p>
+            <h3 style="margin-bottom: 4px;">📷 4:3 फोटो एडिटर (Zoom & Crop)</h3>
+            <p style="font-size: 11px; color: #D81B60; font-weight: bold; margin-bottom: 10px;">👉 फोटो को ड्रैग (Drag) करें या नीचे Zoom/Position बटन से एड्ज़स्ट करें:</p>
             
             <!-- 4:3 Viewport Frame -->
-            <div style="width: 100%; aspect-ratio: 4 / 3; background: #111; border: 2px dashed #00C853; border-radius: 12px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; box-shadow: inset 0 0 10px rgba(0,0,0,0.8);">
-                <img id="cropImgTarget" src="" style="max-width: none; position: absolute; transform-origin: center center; transition: transform 0.05s linear;">
+            <div id="cropViewport" style="width: 100%; aspect-ratio: 4 / 3; background: #111; border: 2px dashed #00C853; border-radius: 12px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); cursor: grab; user-select: none; touch-action: none;">
+                <img id="cropImgTarget" src="" style="position: absolute; top: 50%; left: 50%; transform-origin: center center; user-select: none; pointer-events: none;">
             </div>
 
             <!-- Controls: Zoom In, Zoom Out, Reset -->
             <div style="background: #F0F4F8; padding: 12px; border-radius: 10px; margin-bottom: 14px;">
                 <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 10px;">
-                    <button type="button" onclick="adjustZoom(-0.15)" style="padding: 8px 14px; background: #E0E0E0; color:#333; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">🔍 ➖ Zoom Out</button>
+                    <button type="button" onclick="adjustZoom(-0.15)" style="padding: 8px 12px; background: #E0E0E0; color:#333; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">🔍 ➖ Zoom Out</button>
                     <span id="zoomLevelTxt" style="font-size: 14px; font-weight: bold; color: #0288D1;">100%</span>
-                    <button type="button" onclick="adjustZoom(0.15)" style="padding: 8px 14px; background: #0288D1; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">🔍 ➕ Zoom In</button>
-                    <button type="button" onclick="resetZoom()" style="padding: 8px 12px; background: #757575; color: white; border: none; border-radius: 6px; font-size: 12px; cursor: pointer;">🔄 Reset</button>
+                    <button type="button" onclick="adjustZoom(0.15)" style="padding: 8px 12px; background: #0288D1; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">🔍 ➕ Zoom In</button>
+                    <button type="button" onclick="resetZoom()" style="padding: 8px 10px; background: #757575; color: white; border: none; border-radius: 6px; font-size: 12px; cursor: pointer;">🔄 Reset</button>
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: #444; text-align: left;">
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="width: 110px;">horizontal position:</span>
+                        <span style="width: 110px;">दाएं / बाएं (X):</span>
                         <input type="range" id="panXRange" min="-180" max="180" value="0" oninput="updateCropTransform()" style="flex:1;">
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="width: 110px;">vertical position:</span>
+                        <span style="width: 110px;">ऊपर / नीचे (Y):</span>
                         <input type="range" id="panYRange" min="-180" max="180" value="0" oninput="updateCropTransform()" style="flex:1;">
                     </div>
                 </div>
@@ -1314,13 +1357,13 @@
                 const whatsappMsg = encodeURIComponent(`नमस्ते रविंद्र जी, मुझे "${item.title}" (₹${Number(item.price).toLocaleString('en-IN')}) की बुकिंग के बारे में जानना है।`);
 
                 card.innerHTML = `
-                    <div class="card-hero-wrap">
+                    <div class="card-hero-wrap" onclick="openDetailModal('${item.docId || item.id}')">
                         <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
                         <div class="badge-category">${item.category}</div>
                         <div class="badge-price">₹${Number(item.price).toLocaleString('en-IN')}</div>
                     </div>
                     <div class="card-body">
-                        <div class="card-title">${item.title}</div>
+                        <div class="card-title" onclick="openDetailModal('${item.docId || item.id}')" style="cursor:pointer;">${item.title}</div>
                         <div class="card-flowers"><span class="material-icons-round" style="font-size:14px;">local_florist</span> ${item.flowersUsed || 'ताजे फूल'}</div>
                         <div class="card-desc">${item.description || ''}</div>
                         <div class="card-actions">
@@ -1336,6 +1379,31 @@
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        function openDetailModal(id) {
+            const item = decorItems.find(i => i.docId === id || i.id == id);
+            if (!item) return;
+
+            document.getElementById('detailTitle').innerText = item.title;
+            document.getElementById('detailCatBadge').innerText = item.category || 'Package';
+            document.getElementById('detailImg').src = item.imageUrl;
+            document.getElementById('detailPriceTag').innerText = '₹' + Number(item.price).toLocaleString('en-IN');
+            document.getElementById('detailFlowers').innerText = item.flowersUsed || 'ताजे फूल';
+            document.getElementById('detailDesc').innerText = item.description || 'कोई अतिरिक्त विवरण उपलब्ध नहीं है।';
+
+            const whatsappMsg = encodeURIComponent(`नमस्ते रविंद्र जी, मुझे "${item.title}" (₹${Number(item.price).toLocaleString('en-IN')}) की बुकिंग के बारे में जानना है।`);
+            const callBtn = document.getElementById('callBtn');
+            let cleanPhone = '919876543210';
+            if (callBtn && callBtn.href) {
+                const digits = callBtn.href.replace(/\D/g, '');
+                if (digits) cleanPhone = digits;
+            }
+
+            document.getElementById('detailWhatsappBtn').href = `https://wa.me/${cleanPhone}?text=${whatsappMsg}`;
+            document.getElementById('detailCallBtn').href = `tel:${cleanPhone}`;
+
+            document.getElementById('detailModal').style.display = 'flex';
         }
 
         function filterCategory(cat, element) {
@@ -1455,6 +1523,8 @@
         let cropPanX = 0;
         let cropPanY = 0;
         let originalLoadedImage = null;
+        let baseRenderWidth = 0;
+        let baseRenderHeight = 0;
 
         function update43PreviewFromUrl() {
             const url = document.getElementById('itemImg').value;
@@ -1477,7 +1547,8 @@
                 const img = new Image();
                 img.onload = function() {
                     originalLoadedImage = img;
-                    document.getElementById('cropImgTarget').src = e.target.result;
+                    const cropImgTarget = document.getElementById('cropImgTarget');
+                    cropImgTarget.src = e.target.result;
                     resetZoom();
                     document.getElementById('cropModal').style.display = 'flex';
                 };
@@ -1488,7 +1559,7 @@
         }
 
         function adjustZoom(delta) {
-            currentCropScale = Math.max(0.4, Math.min(3.5, currentCropScale + delta));
+            currentCropScale = Math.max(0.4, Math.min(4.0, currentCropScale + delta));
             updateCropTransform();
         }
 
@@ -1500,6 +1571,29 @@
             const panY = document.getElementById('panYRange');
             if (panX) panX.value = 0;
             if (panY) panY.value = 0;
+
+            const viewport = document.getElementById('cropViewport');
+            if (viewport && originalLoadedImage) {
+                const vWidth = viewport.clientWidth || 360;
+                const vHeight = vWidth * 0.75; // 4:3 ratio
+                const imgAspect = originalLoadedImage.width / originalLoadedImage.height;
+                const vAspect = 4 / 3;
+
+                if (imgAspect > vAspect) {
+                    baseRenderHeight = vHeight;
+                    baseRenderWidth = vHeight * imgAspect;
+                } else {
+                    baseRenderWidth = vWidth;
+                    baseRenderHeight = vWidth / imgAspect;
+                }
+
+                const imgTarget = document.getElementById('cropImgTarget');
+                if (imgTarget) {
+                    imgTarget.style.width = baseRenderWidth + 'px';
+                    imgTarget.style.height = baseRenderHeight + 'px';
+                }
+            }
+
             updateCropTransform();
         }
 
@@ -1508,7 +1602,7 @@
             cropPanY = parseInt(document.getElementById('panYRange').value) || 0;
             const imgEl = document.getElementById('cropImgTarget');
             if (imgEl) {
-                imgEl.style.transform = `translate(${cropPanX}px, ${cropPanY}px) scale(${currentCropScale})`;
+                imgEl.style.transform = `translate(-50%, -50%) translate(${cropPanX}px, ${cropPanY}px) scale(${currentCropScale})`;
             }
             const zoomTxt = document.getElementById('zoomLevelTxt');
             if (zoomTxt) {
@@ -1519,9 +1613,12 @@
         function applyCroppedImage() {
             if (!originalLoadedImage) return;
 
+            const viewport = document.getElementById('cropViewport');
+            const vWidth = (viewport && viewport.clientWidth) ? viewport.clientWidth : 360;
+
             const canvas = document.createElement('canvas');
             const targetWidth = 800;
-            const targetHeight = 600; // Standard 4:3 Ratio
+            const targetHeight = 600; // Perfect 4:3 Aspect Ratio
             canvas.width = targetWidth;
             canvas.height = targetHeight;
 
@@ -1529,30 +1626,77 @@
             ctx.fillStyle = '#FFFFFF';
             ctx.fillRect(0, 0, targetWidth, targetHeight);
 
-            // Compute draw dimensions keeping image aspect ratio
-            const imgAspect = originalLoadedImage.width / originalLoadedImage.height;
-            const canvasAspect = targetWidth / targetHeight; // 1.3333
+            const scaleFactor = targetWidth / vWidth;
 
-            let drawW, drawH;
-            if (imgAspect > canvasAspect) {
-                drawH = targetHeight * currentCropScale;
-                drawW = drawH * imgAspect;
-            } else {
-                drawW = targetWidth * currentCropScale;
-                drawH = drawW / imgAspect;
-            }
+            const drawW = baseRenderWidth * currentCropScale * scaleFactor;
+            const drawH = baseRenderHeight * currentCropScale * scaleFactor;
 
-            const offsetX = (targetWidth - drawW) / 2 + (cropPanX * 2);
-            const offsetY = (targetHeight - drawH) / 2 + (cropPanY * 2);
+            const offsetX = (targetWidth - drawW) / 2 + (cropPanX * scaleFactor);
+            const offsetY = (targetHeight - drawH) / 2 + (cropPanY * scaleFactor);
 
             ctx.drawImage(originalLoadedImage, offsetX, offsetY, drawW, drawH);
 
-            const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+            const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.88);
 
             document.getElementById('itemImg').value = croppedDataUrl;
             update43PreviewFromUrl();
             closeModal('cropModal');
         }
+
+        // Initialize drag events on cropViewport for smooth touch & mouse framing
+        let isDraggingCrop = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let initialPanX = 0;
+        let initialPanY = 0;
+
+        function initCropDragEvents() {
+            const viewport = document.getElementById('cropViewport');
+            if (!viewport) return;
+
+            const onStart = (e) => {
+                isDraggingCrop = true;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                dragStartX = clientX;
+                dragStartY = clientY;
+                initialPanX = cropPanX;
+                initialPanY = cropPanY;
+            };
+
+            const onMove = (e) => {
+                if (!isDraggingCrop) return;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                const deltaX = clientX - dragStartX;
+                const deltaY = clientY - dragStartY;
+
+                cropPanX = Math.max(-200, Math.min(200, initialPanX + deltaX));
+                cropPanY = Math.max(-200, Math.min(200, initialPanY + deltaY));
+
+                const panXEl = document.getElementById('panXRange');
+                const panYEl = document.getElementById('panYRange');
+                if (panXEl) panXEl.value = cropPanX;
+                if (panYEl) panYEl.value = cropPanY;
+
+                updateCropTransform();
+            };
+
+            const onEnd = () => {
+                isDraggingCrop = false;
+            };
+
+            viewport.addEventListener('mousedown', onStart);
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('mouseup', onEnd);
+
+            viewport.addEventListener('touchstart', onStart, {passive: true});
+            window.addEventListener('touchmove', onMove, {passive: true});
+            window.addEventListener('touchend', onEnd);
+        }
+
+        document.addEventListener('DOMContentLoaded', initCropDragEvents);
+        setTimeout(initCropDragEvents, 500);
 
         function openAddModal() {
             editingItemId = null;
