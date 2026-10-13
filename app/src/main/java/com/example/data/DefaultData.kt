@@ -3,6 +3,7 @@ package com.example.data
 object DefaultData {
     val initialDecorations = listOf(
         DecorationItem(
+            docId = "decor_1",
             id = 1,
             title = "रॉयल वेडिंग स्टेज सजावट (Royal Stage Decor)",
             category = "Stage Decor",
@@ -13,6 +14,7 @@ object DefaultData {
             isPopular = true
         ),
         DecorationItem(
+            docId = "decor_2",
             id = 2,
             title = "हल्दी एवं मेहंदी कैनोपी सेटअप (Haldi & Mehendi Special)",
             category = "Haldi & Mehendi",
@@ -23,6 +25,7 @@ object DefaultData {
             isPopular = true
         ),
         DecorationItem(
+            docId = "decor_3",
             id = 3,
             title = "ग्रैंड एंट्रेंस फ्लावर गेट (Grand Welcome Arch)",
             category = "Entrance Arch",
@@ -33,6 +36,7 @@ object DefaultData {
             isPopular = true
         ),
         DecorationItem(
+            docId = "decor_4",
             id = 4,
             title = "शादी मण्डप फ्लावर सजावट (Traditional Wedding Mandap)",
             category = "Mandap",
@@ -43,6 +47,7 @@ object DefaultData {
             isPopular = false
         ),
         DecorationItem(
+            docId = "decor_5",
             id = 5,
             title = "लक्जरी दुल्हन कार डेकोरेशन (Bridal Car Flower Decor)",
             category = "Car Decor",
@@ -53,6 +58,7 @@ object DefaultData {
             isPopular = true
         ),
         DecorationItem(
+            docId = "decor_6",
             id = 6,
             title = "ब्राइडल रूम एवं बेड फ्लावर डेकोर (Suhaagrat Bed Decor)",
             category = "Room Decor",
@@ -63,6 +69,7 @@ object DefaultData {
             isPopular = false
         ),
         DecorationItem(
+            docId = "decor_7",
             id = 7,
             title = "पेस्टल थीम रिसेप्शन वॉल (Pastel Theme Flower Wall)",
             category = "Theme Setup",
@@ -73,6 +80,7 @@ object DefaultData {
             isPopular = true
         ),
         DecorationItem(
+            docId = "decor_8",
             id = 8,
             title = "बर्थडे एवं एनिवर्सरी रिंग डेकोर (Birthday / Ring Setup)",
             category = "Theme Setup",

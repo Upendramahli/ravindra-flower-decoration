@@ -214,6 +214,7 @@ class DecorationViewModel(
         viewModelScope.launch {
             val currentEditing = editingItem.value
             val itemToSave = DecorationItem(
+                docId = currentEditing?.docId ?: "",
                 id = currentEditing?.id ?: 0,
                 title = title.ifBlank { "फ्लावर डेकोरेशन पैकेज" },
                 category = category,

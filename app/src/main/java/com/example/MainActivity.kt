@@ -8,10 +8,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.data.AppDatabase
 import com.example.data.DecorationRepository
+import com.example.data.FirestoreRepository
 import com.example.ui.DecorationViewModel
 import com.example.ui.DecorationViewModelFactory
 import com.example.ui.HomeScreen
 import com.example.ui.theme.RavindraTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -22,7 +25,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         val database = AppDatabase.getDatabase(applicationContext, lifecycleScope)
-        val repository = DecorationRepository(database.decorationDao())
+        val firestoreRepository = FirestoreRepository(applicationContext, database.decorationDao())
+        val repository = DecorationRepository(database.decorationDao(), firestoreRepository)
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            repository.seedCloudIfEmpty()
+        }
+
         val factory = DecorationViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[DecorationViewModel::class.java]
 

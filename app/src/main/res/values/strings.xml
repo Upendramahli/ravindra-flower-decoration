@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Ravindra Flower Decor</string>
+    <string name="default_web_client_id" translatable="false">516006774307-kgubvgm7g8cr7v2oqmqdjnp6c3mfqnlk.apps.googleusercontent.com</string>
 </resources>

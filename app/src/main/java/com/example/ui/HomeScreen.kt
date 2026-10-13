@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -137,15 +138,21 @@ fun HomeScreen(
         },
         floatingActionButtonPosition = FabPosition.End
     ) { paddingValues ->
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 300.dp),
-            contentPadding = PaddingValues(
-                bottom = paddingValues.calculateBottomPadding() + 80.dp
-            ),
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding())
+                .padding(top = paddingValues.calculateTopPadding()),
+            contentAlignment = Alignment.TopCenter
         ) {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 290.dp),
+                contentPadding = PaddingValues(
+                    bottom = paddingValues.calculateBottomPadding() + 80.dp
+                ),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .widthIn(max = 1200.dp)
+            ) {
             // 1a. Top Web App Install Banner (Matching Image 2 - Only shown if NOT installed & NOT dismissed)
             if (!isAppInstalled && !isBannerDismissed) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
@@ -401,6 +408,7 @@ fun HomeScreen(
             }
         }
     }
+}
 
     // Dialogs
     if (showAdminPinDialog) {

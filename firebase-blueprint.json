@@ -1,0 +1,18 @@
+{
+  "entities": {
+    "DecorationItem": {
+      "collection": "decorations",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "title": { "type": "string", "required": true },
+        "category": { "type": "string", "required": true },
+        "price": { "type": "number", "required": true },
+        "imageUrl": { "type": "string", "required": true },
+        "description": { "type": "string", "required": false },
+        "flowersUsed": { "type": "string", "required": false },
+        "isPopular": { "type": "boolean", "required": true },
+        "isAvailable": { "type": "boolean", "required": true }
+      }
+    }
+  }
+}

@@ -1,33 +1,57 @@
 package com.example.data
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
 
-class DecorationRepository(private val dao: DecorationDao) {
+class DecorationRepository(
+    private val dao: DecorationDao,
+    private val firestoreRepository: FirestoreRepository? = null
+) {
 
-    val allDecorations: Flow<List<DecorationItem>> = dao.getAllDecorations()
-
-    fun getByCategory(category: String): Flow<List<DecorationItem>> {
-        return if (category == "All" || category == "सभी") {
-            dao.getAllDecorations()
-        } else {
-            dao.getDecorationsByCategory(category)
+    val allDecorations: Flow<List<DecorationItem>> = if (firestoreRepository != null) {
+        firestoreRepository.getRealtimeDecorations().onEach { items ->
+            if (items.isNotEmpty()) {
+                dao.insertAll(items)
+            }
         }
+    } else {
+        dao.getAllDecorations()
     }
 
     suspend fun insert(item: DecorationItem) {
-        dao.insertDecoration(item)
+        if (firestoreRepository != null) {
+            firestoreRepository.saveDecoration(item)
+        } else {
+            dao.insertDecoration(item)
+        }
     }
 
     suspend fun update(item: DecorationItem) {
-        dao.updateDecoration(item)
+        if (firestoreRepository != null) {
+            firestoreRepository.saveDecoration(item)
+        } else {
+            dao.updateDecoration(item)
+        }
     }
 
     suspend fun delete(item: DecorationItem) {
-        dao.deleteDecoration(item)
+        if (firestoreRepository != null) {
+            firestoreRepository.deleteDecoration(item)
+        } else {
+            dao.deleteDecoration(item)
+        }
     }
 
     suspend fun resetToDefault() {
         dao.deleteAll()
-        dao.insertAll(DefaultData.initialDecorations)
+        if (firestoreRepository != null) {
+            firestoreRepository.seedInitialDataIfEmpty()
+        } else {
+            dao.insertAll(DefaultData.initialDecorations)
+        }
+    }
+
+    suspend fun seedCloudIfEmpty() {
+        firestoreRepository?.seedInitialDataIfEmpty()
     }
 }

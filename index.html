@@ -638,6 +638,80 @@
 
         .btn-cancel { background: #424242; color: white; }
         .btn-confirm { background: #D81B60; color: white; }
+
+        /* Multi-Device Responsiveness & Adaptive Breakpoints */
+        @media (min-width: 600px) {
+            .hero-header {
+                padding: 24px 32px 32px;
+                border-bottom-left-radius: 28px;
+                border-bottom-right-radius: 28px;
+            }
+            .main-title-row h1 {
+                font-size: 26px;
+            }
+            .hero-actions {
+                max-width: 480px;
+                margin: 0 auto;
+            }
+            .yellow-tag-capsule {
+                max-width: 480px;
+                margin: 14px auto 18px;
+            }
+            .decor-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+            .contact-box {
+                padding: 22px;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .hero-header {
+                padding: 32px 40px 40px;
+            }
+            .main-title-row h1 {
+                font-size: 32px;
+            }
+            .subtitle {
+                font-size: 14px;
+            }
+            .hero-actions {
+                max-width: 560px;
+            }
+            .decor-grid {
+                grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+                gap: 24px;
+            }
+            .modal-card {
+                max-width: 500px;
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .install-banner {
+                margin: 6px;
+                padding: 6px 10px;
+            }
+            .hero-header {
+                padding: 12px 10px 18px;
+            }
+            .main-title-row h1 {
+                font-size: 19px;
+            }
+            .hero-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .yellow-tag-capsule {
+                font-size: 11px;
+                padding: 6px 10px;
+            }
+            .decor-grid {
+                padding: 0 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -809,9 +883,33 @@
         </div>
     </div>
 
+    <!-- Firebase Web SDK Compat Libraries -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
     <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBBV9CHKtYdx1kFK0u0dJQAlCxRwRBSjDs",
+            authDomain: "gen-lang-client-0040997999.firebaseapp.com",
+            projectId: "gen-lang-client-0040997999",
+            storageBucket: "gen-lang-client-0040997999.firebasestorage.app",
+            messagingSenderId: "516006774307",
+            appId: "1:516006774307:android:50698f97d46c3c6d885396"
+        };
+
+        let db = null;
+        try {
+            if (typeof firebase !== 'undefined') {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore(firebase.app(), "ai-studio-android-ravindra-e0c7128d-827a-4ca8-99b0-bf5fd6d3b325");
+            }
+        } catch (e) {
+            console.warn("Firebase Web SDK init warning:", e);
+        }
+
         const initialData = [
             {
+                docId: "decor_1",
                 id: 1,
                 title: "रॉयल वेडिंग स्टेज सजावट (Royal Stage Decor)",
                 category: "Stage Decor",
@@ -821,6 +919,7 @@
                 flowersUsed: "Red Rose, Rajnigandha, White Orchid"
             },
             {
+                docId: "decor_2",
                 id: 2,
                 title: "हल्दी एवं मेहंदी कैनोपी सेटअप (Haldi & Mehendi Special)",
                 category: "Haldi & Mehendi",
@@ -830,6 +929,7 @@
                 flowersUsed: "Yellow & Orange Marigold, Jasmine"
             },
             {
+                docId: "decor_3",
                 id: 3,
                 title: "ग्रैंड एंट्रेंस फ्लावर गेट (Grand Welcome Arch)",
                 category: "Entrance Arch",
@@ -839,6 +939,7 @@
                 flowersUsed: "Carnation, Dutch Rose, Lily, Marigold"
             },
             {
+                docId: "decor_4",
                 id: 4,
                 title: "शादी मण्डप फ्लावर सजावट (Traditional Wedding Mandap)",
                 category: "Mandap",
@@ -848,6 +949,7 @@
                 flowersUsed: "Red Rose, Orange Marigold, Mogra"
             },
             {
+                docId: "decor_5",
                 id: 5,
                 title: "लक्जरी दुल्हन कार डेकोरेशन (Bridal Car Flower Decor)",
                 category: "Car Decor",
@@ -857,6 +959,7 @@
                 flowersUsed: "Dutch Red Roses, White Orchids"
             },
             {
+                docId: "decor_6",
                 id: 6,
                 title: "ब्राइडल रूम एवं बेड फ्लावर डेकोर (Suhaagrat Bed Decor)",
                 category: "Room Decor",
@@ -866,6 +969,7 @@
                 flowersUsed: "Fragrant Rose Petals, Mogra Garlands"
             },
             {
+                docId: "decor_7",
                 id: 7,
                 title: "पेस्टल थीम रिसेप्शन वॉल (Pastel Theme Flower Wall)",
                 category: "Theme Setup",
@@ -875,6 +979,7 @@
                 flowersUsed: "Pink Roses, Baby's Breath, White Carnations"
             },
             {
+                docId: "decor_8",
                 id: 8,
                 title: "बर्थडे एवं एनिवर्सरी रिंग डेकोर (Birthday / Ring Setup)",
                 category: "Theme Setup",
@@ -891,15 +996,50 @@
         let isAdmin = false;
         let editingItemId = null;
 
+        // Realtime Firestore Snapshot Listener for Live Sync across all devices
+        if (db) {
+            db.collection("decorations").onSnapshot((snapshot) => {
+                if (snapshot && !snapshot.empty) {
+                    const cloudItems = [];
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        cloudItems.push({
+                            docId: doc.id,
+                            id: data.id || doc.id,
+                            title: data.title || '',
+                            category: data.category || '',
+                            price: Number(data.price) || 0,
+                            imageUrl: data.imageUrl || '',
+                            description: data.description || '',
+                            flowersUsed: data.flowersUsed || '',
+                            isPopular: !!data.isPopular,
+                            isAvailable: data.isAvailable !== false
+                        });
+                    });
+                    decorItems = cloudItems;
+                    localStorage.setItem('ravindra_decor_items', JSON.stringify(decorItems));
+                    renderGrid();
+                } else if (snapshot && snapshot.empty) {
+                    // Seed Firestore if empty
+                    initialData.forEach((item) => {
+                        db.collection("decorations").doc(item.docId).set(item);
+                    });
+                }
+            }, (err) => {
+                console.warn("Firestore sync listener error:", err);
+            });
+        }
+
         function renderGrid() {
             const grid = document.getElementById('decorGrid');
+            if (!grid) return;
             grid.innerHTML = '';
 
             const filtered = decorItems.filter(item => {
                 const matchCategory = (currentCategory === 'सभी' || item.category === currentCategory);
-                const matchSearch = item.title.toLowerCase().includes(searchQuery) ||
-                                    item.description.toLowerCase().includes(searchQuery) ||
-                                    item.flowersUsed.toLowerCase().includes(searchQuery);
+                const matchSearch = (item.title || '').toLowerCase().includes(searchQuery) ||
+                                    (item.description || '').toLowerCase().includes(searchQuery) ||
+                                    (item.flowersUsed || '').toLowerCase().includes(searchQuery);
                 return matchCategory && matchSearch;
             });
 
@@ -911,25 +1051,25 @@
             filtered.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'decor-card';
-                const whatsappMsg = encodeURIComponent(`नमस्ते रविंद्र जी, मुझे "${item.title}" (₹${item.price.toLocaleString('en-IN')}) की बुकिंग के बारे में जानना है।`);
+                const whatsappMsg = encodeURIComponent(`नमस्ते रविंद्र जी, मुझे "${item.title}" (₹${Number(item.price).toLocaleString('en-IN')}) की बुकिंग के बारे में जानना है।`);
 
                 card.innerHTML = `
                     <div class="card-hero-wrap">
                         <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
                         <div class="badge-category">${item.category}</div>
-                        <div class="badge-price">₹${item.price.toLocaleString('en-IN')}</div>
+                        <div class="badge-price">₹${Number(item.price).toLocaleString('en-IN')}</div>
                     </div>
                     <div class="card-body">
                         <div class="card-title">${item.title}</div>
-                        <div class="card-flowers"><span class="material-icons-round" style="font-size:14px;">local_florist</span> ${item.flowersUsed}</div>
-                        <div class="card-desc">${item.description}</div>
+                        <div class="card-flowers"><span class="material-icons-round" style="font-size:14px;">local_florist</span> ${item.flowersUsed || 'ताजे फूल'}</div>
+                        <div class="card-desc">${item.description || ''}</div>
                         <div class="card-actions">
                             <a href="https://wa.me/919876543210?text=${whatsappMsg}" target="_blank" class="btn-card-book">
                                 <span class="material-icons-round" style="font-size:16px;">chat</span> बुक करें
                             </a>
                             ${isAdmin ? `
-                                <button class="btn-card-edit" onclick="editItem(${item.id})">एडिट</button>
-                                <button class="btn-card-delete" onclick="deleteItem(${item.id})">हटाएं</button>
+                                <button class="btn-card-edit" onclick="editItem('${item.docId || item.id}')">एडिट</button>
+                                <button class="btn-card-delete" onclick="deleteItem('${item.docId || item.id}')">हटाएं</button>
                             ` : ''}
                         </div>
                     </div>
@@ -945,16 +1085,19 @@
             renderGrid();
         }
 
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            searchQuery = e.target.value.toLowerCase();
-            renderGrid();
-        });
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase();
+                renderGrid();
+            });
+        }
 
         /* --- Admin Hold / Touch Long Press Logic without Text Selection --- */
         let pressTimer;
         const titleBox = document.getElementById('headerTitleBox');
 
-        function startPressTimer() {
+        function startPressTimer(e) {
             pressTimer = setTimeout(() => {
                 openAdminPinModal();
             }, 1200); // 1.2s hold triggers Admin PIN dialog
@@ -964,12 +1107,14 @@
             clearTimeout(pressTimer);
         }
 
-        titleBox.addEventListener('touchstart', startPressTimer, {passive: true});
-        titleBox.addEventListener('touchend', cancelPressTimer);
-        titleBox.addEventListener('touchcancel', cancelPressTimer);
-        titleBox.addEventListener('mousedown', startPressTimer);
-        titleBox.addEventListener('mouseup', cancelPressTimer);
-        titleBox.addEventListener('mouseleave', cancelPressTimer);
+        if (titleBox) {
+            titleBox.addEventListener('touchstart', startPressTimer, {passive: true});
+            titleBox.addEventListener('touchend', cancelPressTimer);
+            titleBox.addEventListener('touchcancel', cancelPressTimer);
+            titleBox.addEventListener('mousedown', startPressTimer);
+            titleBox.addEventListener('mouseup', cancelPressTimer);
+            titleBox.addEventListener('mouseleave', cancelPressTimer);
+        }
 
         function openAdminPinModal() {
             if (isAdmin) {
@@ -982,7 +1127,7 @@
 
         function verifyAdminPin() {
             const pin = document.getElementById('pinInput').value;
-            if (pin === '1234') {
+            if (pin === '1234' || pin === '4321') {
                 isAdmin = true;
                 closeModal('pinModal');
                 document.getElementById('adminBar').style.display = 'flex';
@@ -991,7 +1136,7 @@
                 renderGrid();
                 alert('एडमिन मोड चालू हो गया! अब आप पैकेज एडिट या डिलीट कर सकते हैं।');
             } else {
-                alert('गलत पिन! डिफ़ॉल्ट पिन 1234 है।');
+                alert('गलत पिन! डिफ़ॉल्ट पिन 1234 या कॉलिंग नंबर के आखिरी 4 अंक हैं।');
             }
         }
 
@@ -1015,7 +1160,7 @@
         }
 
         function editItem(id) {
-            const item = decorItems.find(i => i.id === id);
+            const item = decorItems.find(i => i.docId === id || i.id == id);
             if (!item) return;
             editingItemId = id;
             document.getElementById('itemModalTitle').innerText = 'पैकेज एडिट करें';
@@ -1038,35 +1183,66 @@
 
             if (!title) { alert('कृपया पैकेज का शीर्षक दर्ज करें'); return; }
 
+            const itemData = {
+                title,
+                category: cat,
+                price,
+                imageUrl: img || 'https://images.unsplash.com/photo-1519225421980-715cb0215aed',
+                flowersUsed: flowers,
+                description: desc,
+                isPopular: false,
+                isAvailable: true
+            };
+
             if (editingItemId) {
-                const index = decorItems.findIndex(i => i.id === editingItemId);
-                if (index !== -1) {
-                    decorItems[index] = { id: editingItemId, title, category: cat, price, imageUrl: img, flowersUsed: flowers, description: desc };
+                const docId = String(editingItemId);
+                if (db) {
+                    db.collection("decorations").doc(docId).set({ ...itemData, docId }, { merge: true });
+                } else {
+                    const index = decorItems.findIndex(i => i.docId === docId || i.id == editingItemId);
+                    if (index !== -1) {
+                        decorItems[index] = { ...decorItems[index], ...itemData };
+                        localStorage.setItem('ravindra_decor_items', JSON.stringify(decorItems));
+                        renderGrid();
+                    }
                 }
             } else {
+                const docId = "decor_" + Date.now();
                 const newId = Date.now();
-                decorItems.push({ id: newId, title, category: cat, price, imageUrl: img, flowersUsed: flowers, description: desc });
+                const newItem = { docId, id: newId, ...itemData };
+                if (db) {
+                    db.collection("decorations").doc(docId).set(newItem);
+                } else {
+                    decorItems.push(newItem);
+                    localStorage.setItem('ravindra_decor_items', JSON.stringify(decorItems));
+                    renderGrid();
+                }
             }
 
-            localStorage.setItem('ravindra_decor_items', JSON.stringify(decorItems));
             closeModal('itemModal');
-            renderGrid();
         }
 
         function deleteItem(id) {
             if (confirm('क्या आप सच में इस पैकेज को हटाना चाहते हैं?')) {
-                decorItems = decorItems.filter(i => i.id !== id);
-                localStorage.setItem('ravindra_decor_items', JSON.stringify(decorItems));
-                renderGrid();
+                const docId = String(id);
+                if (db) {
+                    db.collection("decorations").doc(docId).delete();
+                } else {
+                    decorItems = decorItems.filter(i => i.docId !== docId && i.id != id);
+                    localStorage.setItem('ravindra_decor_items', JSON.stringify(decorItems));
+                    renderGrid();
+                }
             }
         }
 
         function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
         }
 
         function dismissBanner() {
-            document.getElementById('installBanner').style.display = 'none';
+            const el = document.getElementById('installBanner');
+            if (el) el.style.display = 'none';
         }
 
         // PWA Installation
@@ -1081,23 +1257,28 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installBanner.style.display = 'flex';
+            if (installBanner) installBanner.style.display = 'flex';
         });
 
-        installBtn.addEventListener('click', () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        installBanner.style.display = 'none';
-                    }
-                    deferredPrompt = null;
-                });
-            }
-        });
+        if (installBtn) {
+            installBtn.addEventListener('click', () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            if (installBanner) installBanner.style.display = 'none';
+                        }
+                        deferredPrompt = null;
+                    });
+                }
+            });
+        }
 
         // Set Current Host URL in Install Banner
-        document.getElementById('bannerUrl').innerText = window.location.hostname || "www.ravindraflower.com";
+        const bannerUrl = document.getElementById('bannerUrl');
+        if (bannerUrl) {
+            bannerUrl.innerText = window.location.hostname || "www.ravindraflower.com";
+        }
 
         // Initial Grid Render
         renderGrid();
