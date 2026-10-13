@@ -1,0 +1,25 @@
+{
+  "short_name": "Ravindra Decor",
+  "name": "Ravindra Flower Decoration",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3468/3468306.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3468/3468306.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#FFF5F7",
+  "theme_color": "#D81B60",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "./",
+  "description": "रविंद्र फ्लावर डेकोरेशन - शादी, हल्दी, मण्डप व कार डेकोरेशन"
+}
