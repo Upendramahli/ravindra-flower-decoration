@@ -25,10 +25,12 @@ import androidx.compose.material.icons.filled.AdminPanelSettings
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.LocalFlorist
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Chat
+import androidx.compose.runtime.collectAsState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -40,6 +42,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -67,6 +73,7 @@ fun HeroHeader(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val shopAddress by viewModel.shopAddress.collectAsState()
 
     Surface(
         modifier = modifier.fillMaxWidth(),
@@ -155,24 +162,32 @@ fun HeroHeader(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Main Title Box (Secret 10-Second Hold to Open Admin Password Dialog)
+                // Main Title Box (Secret 5 Fast Taps or Hold to Open Admin Password Dialog)
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxWidth()
                         .pointerInput(Unit) {
-                            awaitEachGesture {
-                                val down = awaitFirstDown()
-                                val timeout = withTimeoutOrNull(10000L) {
-                                    do {
-                                        val event = awaitPointerEvent()
-                                    } while (event.changes.any { it.pressed })
-                                }
-                                if (timeout == null) {
-                                    // 10 seconds held continuously!
+                            var count = 0
+                            var lastTime = 0L
+                            detectTapGestures(
+                                onLongPress = {
                                     onToggleAdminPin()
+                                },
+                                onTap = {
+                                    val now = System.currentTimeMillis()
+                                    if (now - lastTime < 800L) {
+                                        count++
+                                    } else {
+                                        count = 1
+                                    }
+                                    lastTime = now
+                                    if (count >= 5) {
+                                        count = 0
+                                        onToggleAdminPin()
+                                    }
                                 }
-                            }
+                            )
                         }
                 ) {
                     Row(
@@ -257,7 +272,38 @@ fun HeroHeader(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(14.dp))
+
+                // Shop Address Bar Above Direct Call & WhatsApp Buttons
+                Surface(
+                    shape = RoundedCornerShape(12.dp),
+                    color = Color.Black.copy(alpha = 0.22f),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.35f)),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.LocationOn,
+                            contentDescription = "Location",
+                            tint = MarigoldAmber,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = shopAddress,
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
 
                 // Quick Contact Buttons Bar
                 Card(

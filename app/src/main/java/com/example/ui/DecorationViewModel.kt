@@ -150,7 +150,13 @@ class DecorationViewModel(
     )
 
     fun onSearchQueryChange(newQuery: String) {
-        searchQuery.value = newQuery
+        val trimmed = newQuery.lowercase().trim()
+        if (trimmed == "admin" || trimmed == "1234" || trimmed == "#admin" || trimmed == "pass") {
+            searchQuery.value = ""
+            showAdminPinDialog.value = true
+        } else {
+            searchQuery.value = newQuery
+        }
     }
 
     fun onCategorySelect(category: String) {

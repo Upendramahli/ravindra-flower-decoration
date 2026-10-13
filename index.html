@@ -254,6 +254,25 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
+        /* Header Address Box above Direct Call & WhatsApp buttons */
+        .header-address-box {
+            background: rgba(0, 0, 0, 0.22);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 12px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
         /* Hero Action Buttons */
         .hero-actions {
             display: flex;
@@ -760,6 +779,12 @@
             </div>
         </div>
 
+        <!-- Shop Address Display Above Direct Call & WhatsApp Buttons -->
+        <div class="header-address-box" id="headerAddressBox">
+            <span class="material-icons-round" style="font-size:16px; color:#FFD54F;">location_on</span>
+            <span id="headerAddressTxt">दुकान नं. 12, मेन मार्केट, फ्लावर स्ट्रीट, जीटी रोड</span>
+        </div>
+
         <!-- Quick Contact Action Buttons -->
         <div class="hero-actions">
             <a href="tel:+919876543210" class="hero-btn btn-call" id="callBtn">
@@ -1028,6 +1053,26 @@
             }, (err) => {
                 console.warn("Firestore sync listener error:", err);
             });
+
+            db.collection("app_config").doc("contact").onSnapshot((doc) => {
+                if (doc && doc.exists) {
+                    const data = doc.data();
+                    if (data.ownerName) document.getElementById('ownerNameTxt').innerText = 'प्रोपराइटर: ' + data.ownerName;
+                    if (data.shopAddress) {
+                        document.getElementById('shopAddressTxt').innerText = 'पता: ' + data.shopAddress;
+                        const headerAddr = document.getElementById('headerAddressTxt');
+                        if (headerAddr) headerAddr.innerText = data.shopAddress;
+                    }
+                    if (data.businessHours) document.getElementById('businessHoursTxt').innerText = 'समय: ' + data.businessHours;
+                    if (data.ownerPhone) {
+                        const cleanPhone = data.ownerPhone.replace(/\D/g, '');
+                        document.getElementById('callBtn').href = 'tel:' + data.ownerPhone;
+                        document.getElementById('whatsappBtn').href = `https://wa.me/${cleanPhone}?text=नमस्ते%20रविंद्र%20जी,%20मुझे%20फ्लावर%20डेकोरेशन%20की%20जानकारी%20चाहिए।`;
+                    }
+                }
+            }, (err) => {
+                console.warn("Contact info listener error:", err);
+            });
         }
 
         function renderGrid() {
@@ -1085,22 +1130,47 @@
             renderGrid();
         }
 
+        /* --- Secret Admin Triggers (1. Search Keyword "admin" or "1234", 2. 5 Fast Taps on Title) --- */
+        let webTapCount = 0;
+        let lastWebTapTime = 0;
+
+        function handleTitleTap() {
+            const now = Date.now();
+            if (now - lastWebTapTime < 800) {
+                webTapCount++;
+            } else {
+                webTapCount = 1;
+            }
+            lastWebTapTime = now;
+
+            if (webTapCount >= 5) {
+                webTapCount = 0;
+                openAdminPinModal();
+            }
+        }
+
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
-                searchQuery = e.target.value.toLowerCase();
-                renderGrid();
+                const val = e.target.value.toLowerCase().trim();
+                if (val === 'admin' || val === '1234' || val === '#admin' || val === 'pass') {
+                    e.target.value = '';
+                    searchQuery = '';
+                    openAdminPinModal();
+                } else {
+                    searchQuery = val;
+                    renderGrid();
+                }
             });
         }
 
-        /* --- Admin Hold / Touch Long Press Logic without Text Selection --- */
         let pressTimer;
         const titleBox = document.getElementById('headerTitleBox');
 
         function startPressTimer(e) {
             pressTimer = setTimeout(() => {
                 openAdminPinModal();
-            }, 1200); // 1.2s hold triggers Admin PIN dialog
+            }, 1000); // 1s hold backup trigger
         }
 
         function cancelPressTimer() {
@@ -1108,6 +1178,7 @@
         }
 
         if (titleBox) {
+            titleBox.addEventListener('click', handleTitleTap);
             titleBox.addEventListener('touchstart', startPressTimer, {passive: true});
             titleBox.addEventListener('touchend', cancelPressTimer);
             titleBox.addEventListener('touchcancel', cancelPressTimer);
