@@ -11,6 +11,7 @@ class DecorationRepository(
     val allDecorations: Flow<List<DecorationItem>> = if (firestoreRepository != null) {
         firestoreRepository.getRealtimeDecorations().onEach { items ->
             if (items.isNotEmpty()) {
+                dao.deleteAll()
                 dao.insertAll(items)
             }
         }
