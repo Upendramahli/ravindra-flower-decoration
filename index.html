@@ -2,14 +2,14 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ravindra Flower Decoration - Best Wedding & Event Flower Decorators</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ravindra Flower Decoration - Best Wedding & Event Flower Decorator</title>
+
     <!-- SEO Meta Tags -->
     <meta name="description" content="रविंद्र फ्लावर डेकोरेशन - शादी, मंडप, हल्दी-मेहंदी, कार डेकोरेशन और इवेंट फ्लावर सजावट के लिए संपर्क करें। मोबाइल: +91 98765 43210. Best flower decorator near you.">
     <meta name="keywords" content="Ravindra Flower Decoration, Ravindra Saini, Flower Decorator, Wedding Stage Decor, Mandap Decor, Haldi Decor, Bridal Car Decor, Flower decoration near me">
     <meta name="author" content="Ravindra Saini">
-    <meta name="theme-color" content="#D81B60">
+    <meta name="theme-color" content="#880E4F">
 
     <!-- OpenGraph Meta Tags for Social Media & Google -->
     <meta property="og:title" content="Ravindra Flower Decoration - शादी एवं इवेंट सजावट">
@@ -24,7 +24,7 @@
     <!-- Google Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 
     <!-- Schema.org Structured Data for Google Search Ranking -->
@@ -55,126 +55,290 @@
 
     <style>
         :root {
-            --primary: #C2185B;
-            --primary-dark: #880E4F;
-            --primary-light: #FCE4EC;
-            --accent: #FFB300;
-            --bg: #FFF8F9;
-            --surface: #FFFFFF;
-            --text-main: #212121;
-            --text-sub: #666666;
-            --shadow: 0 4px 15px rgba(194, 24, 91, 0.12);
-            --radius: 16px;
+            --rose-dark: #880E4F;
+            --rose-red: #D81B60;
+            --orange-marigold: #F57C00;
+            --gold-yellow: #FFD54F;
+            --whatsapp-green: #25D366;
+            --dark-bg: #1A1216;
+            --dark-card: #281E23;
+            --dark-input: #382B32;
+            --text-light: #FFFFFF;
+            --text-muted: #B0BEC5;
+            --radius-lg: 20px;
+            --radius-md: 14px;
         }
 
+        /* Prevent Text Selection / Context Menus globally on touch */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Poppins', 'Tiro Devanagari Hindi', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        input, textarea {
+            user-select: text !important;
+            -webkit-user-select: text !important;
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            padding-bottom: 80px;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            padding-bottom: 90px;
+            min-height: 100vh;
         }
 
-        /* Top Bar */
-        .header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        /* 1. Top Web App Install Banner (Matching Image 2) */
+        .install-banner {
+            background-color: #23252E;
+            margin: 10px;
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .banner-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .banner-close-btn {
+            background: transparent;
+            border: none;
+            color: #90A4AE;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .banner-app-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #8E24AA, #D81B60);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
-            padding: 20px 16px 24px;
+            box-shadow: 0 2px 6px rgba(216, 27, 96, 0.4);
+        }
+
+        .banner-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .banner-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .banner-sub {
+            font-size: 11px;
+            color: #B0BEC5;
+        }
+
+        .banner-install-btn {
+            background: transparent;
+            border: none;
+            color: #64B5F6;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 6px 12px;
+        }
+
+        /* 2. Hero Header Section (Matching Image 2) */
+        .hero-header {
+            background: linear-gradient(180deg, #880E4F 0%, #C2185B 60%, #E65100 100%);
+            padding: 16px 16px 24px;
             text-align: center;
-            border-bottom-left-radius: 24px;
-            border-bottom-right-radius: 24px;
-            box-shadow: 0 4px 20px rgba(136, 14, 79, 0.25);
             position: relative;
         }
 
-        .header h1 {
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-        }
-
-        .header p {
-            font-size: 13px;
-            opacity: 0.9;
-            margin-top: 4px;
-        }
-
-        /* PWA Install Banner */
-        .install-banner {
-            display: none;
-            background: linear-gradient(90deg, #FFF3E0, #FFE0B2);
-            border: 1.5px solid #FFB74D;
-            color: #E65100;
-            padding: 12px 16px;
-            margin: 16px;
-            border-radius: 16px;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 4px 12px rgba(230, 81, 0, 0.15);
-            animation: fadeIn 0.4s ease;
-        }
-
-        .install-banner .info {
+        .top-row {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
+            margin-bottom: 14px;
         }
 
-        .install-banner .info span {
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .install-btn {
-            background: #E65100;
+        .booking-pill {
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(4px);
+        }
+
+        .admin-badge {
+            background: #FFCDD2;
+            color: #B71C1C;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 4px;
-            box-shadow: 0 2px 8px rgba(230, 81, 0, 0.3);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
 
-        /* Search & Filter Container */
-        .search-container {
-            padding: 16px;
+        .main-title-box {
+            cursor: pointer;
+            padding: 8px 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .main-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .main-title-row h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #FFFFFF;
+            letter-spacing: 0.2px;
+        }
+
+        .star-icon {
+            color: #FFD54F;
+            font-size: 22px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* Yellow Tag Capsule (Matching Image 2) */
+        .yellow-tag-capsule {
+            background: #FFF9C4;
+            border: 2px solid #FBC02D;
+            border-radius: 20px;
+            padding: 8px 12px;
+            margin: 12px 0 16px;
+            color: #880E4F;
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Hero Action Buttons */
+        .hero-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .hero-btn {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-call {
+            background: #FFFFFF;
+            color: #880E4F;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: #FFFFFF;
+            box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
+        }
+
+        /* 3. Search Bar & Filter Row (Matching Image 2) */
+        .search-filter-section {
+            padding: 14px 16px 8px;
             max-width: 900px;
             margin: 0 auto;
         }
 
-        .search-box {
-            background: var(--surface);
-            border: 1.5px solid #F8BBD0;
+        .search-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-pill {
+            flex: 1;
+            background: #281E23;
+            border: 1px solid #4A333E;
             border-radius: 24px;
-            padding: 10px 18px;
+            padding: 10px 16px;
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: var(--shadow);
         }
 
-        .search-box input {
+        .search-pill input {
             border: none;
             outline: none;
-            width: 100%;
-            font-size: 14px;
-            color: var(--text-main);
             background: transparent;
+            color: white;
+            font-size: 13px;
+            width: 100%;
         }
 
-        /* Category Chips */
-        .categories {
+        .search-pill input::placeholder {
+            color: #8D7A84;
+        }
+
+        .filter-icon-btn {
+            background: #281E23;
+            border: 1px solid #4A333E;
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Category Chips Horizontal Scroll */
+        .categories-scroll {
             display: flex;
             gap: 8px;
             overflow-x: auto;
@@ -184,81 +348,89 @@
             margin: 0 auto;
         }
 
-        .categories::-webkit-scrollbar {
+        .categories-scroll::-webkit-scrollbar {
             display: none;
         }
 
-        .chip {
-            background: var(--surface);
-            border: 1px solid #E0E0E0;
-            padding: 8px 16px;
+        .cat-chip {
+            background: #281E23;
+            border: 1px solid #4A333E;
+            color: #D1C4E9;
+            padding: 8px 18px;
             border-radius: 20px;
             font-size: 13px;
-            font-weight: 500;
+            font-weight: 600;
             white-space: nowrap;
-            color: var(--text-sub);
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .chip.active {
-            background: var(--primary);
+        .cat-chip.active {
+            background: #D81B60;
             color: white;
-            border-color: var(--primary);
-            box-shadow: 0 2px 8px rgba(194, 24, 91, 0.3);
+            border-color: #D81B60;
+            box-shadow: 0 2px 8px rgba(216, 27, 96, 0.4);
         }
 
-        /* Grid Layout */
+        /* 4. Product Cards Grid (Matching Image 2) */
         .decor-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 16px;
             padding: 0 16px;
             max-width: 1000px;
             margin: 0 auto;
         }
 
-        .card {
-            background: var(--surface);
-            border-radius: var(--radius);
+        .decor-card {
+            background: #23191E;
+            border: 1px solid #3D2933;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: var(--shadow);
-            border: 1px solid #F8BBD0;
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
         }
 
-        .card:hover {
-            transform: translateY(-4px);
-        }
-
-        .card-img-wrap {
+        .card-hero-wrap {
             position: relative;
-            height: 180px;
+            height: 220px;
             overflow: hidden;
+            background: #120A0E;
         }
 
-        .card-img-wrap img {
+        .card-hero-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .popular-badge {
+        .badge-category {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(216, 27, 96, 0.9);
+            top: 0;
+            left: 0;
+            background: #D81B60;
             color: white;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-bottom-right-radius: 14px;
         }
 
-        .card-content {
+        .badge-price {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: #E65100;
+            color: white;
+            font-size: 14px;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-body {
             padding: 14px;
             display: flex;
             flex-direction: column;
@@ -267,16 +439,16 @@
 
         .card-title {
             font-size: 15px;
-            font-weight: 700;
-            color: var(--text-main);
+            font-weight: 800;
+            color: #FFFFFF;
             margin-bottom: 6px;
             line-height: 1.3;
         }
 
         .card-flowers {
             font-size: 12px;
-            color: var(--primary);
-            font-weight: 500;
+            color: #F48FB1;
+            font-weight: 600;
             margin-bottom: 8px;
             display: flex;
             align-items: center;
@@ -285,174 +457,360 @@
 
         .card-desc {
             font-size: 12px;
-            color: var(--text-sub);
+            color: #B0A2AA;
             line-height: 1.4;
             margin-bottom: 12px;
             flex-grow: 1;
         }
 
-        .card-footer {
+        .card-actions {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-top: 1px solid #F5F5F5;
+            gap: 8px;
+            border-top: 1px solid #33222B;
             padding-top: 10px;
         }
 
-        .card-price {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--primary-dark);
-        }
-
-        .book-btn {
+        .btn-card-book {
+            flex: 1;
             background: #25D366;
             color: white;
             text-decoration: none;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
-        }
-
-        /* Contact Section Footer */
-        .contact-section {
-            background: white;
-            border: 1px solid #F8BBD0;
-            border-radius: 20px;
-            margin: 24px 16px 0;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            max-width: 900px;
-            margin: 24px auto 0;
-        }
-
-        .contact-section h3 {
-            font-size: 16px;
-            color: var(--primary);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--text-sub);
-            margin-bottom: 8px;
-        }
-
-        .contact-item .material-icons-round {
-            font-size: 18px;
-            color: var(--primary);
-        }
-
-        .call-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        .call-btn {
-            flex: 1;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            text-align: center;
-            padding: 10px;
+            padding: 8px 12px;
             border-radius: 12px;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn-card-edit {
+            background: #FFB74D;
+            color: #5D4037;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
         }
+
+        .btn-card-delete {
+            background: #E57373;
+            color: #880E4F;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Admin Active Bar */
+        .admin-bar {
+            background: #FFB300;
+            color: #000;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 0 auto 12px;
+            border-radius: 12px;
+        }
+
+        .admin-fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 28px;
+            background: #D81B60;
+            color: white;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(216, 27, 96, 0.5);
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        /* Contact Section */
+        .contact-box {
+            background: #23191E;
+            border: 1px solid #3D2933;
+            border-radius: 18px;
+            padding: 16px;
+            margin: 20px 16px 0;
+            max-width: 900px;
+            margin: 20px auto 0;
+        }
+
+        .contact-box h3 {
+            font-size: 15px;
+            color: #F48FB1;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .contact-row {
+            font-size: 13px;
+            color: #D1C4E9;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Modals / Dialogs */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-card {
+            background: #281E23;
+            border: 1px solid #4A333E;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 420px;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
+        .modal-card h3 {
+            font-size: 17px;
+            margin-bottom: 12px;
+            color: #FFD54F;
+        }
+
+        .modal-field {
+            margin-bottom: 12px;
+        }
+
+        .modal-field label {
+            display: block;
+            font-size: 12px;
+            color: #B0BEC5;
+            margin-bottom: 4px;
+        }
+
+        .modal-field input, .modal-field textarea, .modal-field select {
+            width: 100%;
+            padding: 10px;
+            background: #120A0E;
+            border: 1px solid #4A333E;
+            border-radius: 10px;
+            color: white;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .modal-btns {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+
+        .modal-btn {
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-cancel { background: #424242; color: white; }
+        .btn-confirm { background: #D81B60; color: white; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <div class="header">
-        <h1>🌸 रविंद्र फ्लावर डेकोरेशन 🌸</h1>
-        <p>शादी, हल्दी, मण्डप, कार एवं सभी इवेंट्स की ताजे फूलों की सजावट</p>
-    </div>
-
-    <!-- PWA Install Banner -->
+    <!-- 1. Top Web App Install Banner (Matching Image 2) -->
     <div class="install-banner" id="installBanner">
-        <div class="info">
-            <span class="material-icons-round">get_app</span>
-            <span>Ravindra Flower ऐप मोबाइल में इंस्टॉल करें</span>
+        <div class="banner-left">
+            <button class="banner-close-btn" onclick="dismissBanner()">✕</button>
+            <div class="banner-app-icon">
+                <span class="material-icons-round">local_florist</span>
+            </div>
+            <div class="banner-info">
+                <div class="banner-title">Install Ravindra Flower</div>
+                <div class="banner-sub" id="bannerUrl">www.ravindraflower.com</div>
+            </div>
         </div>
-        <button class="install-btn" id="installBtn">
-            <span class="material-icons-round">add_to_home_screen</span> इंस्टॉल करें
-        </button>
+        <button class="banner-install-btn" id="installBtn">Install</button>
     </div>
 
-    <!-- Search & Filter -->
-    <div class="search-container">
-        <div class="search-box">
-            <span class="material-icons-round" style="color: #999;">search</span>
-            <input type="text" id="searchInput" placeholder="सजावट का नाम या फूल खोजें (जैसे Stage, Rose, Haldi)...">
+    <!-- 2. Hero Header Section (Matching Image 2) -->
+    <div class="hero-header">
+        <div class="top-row">
+            <div class="booking-pill">
+                <span class="material-icons-round" style="font-size:14px; color:#FFD54F;">local_florist</span>
+                 ताजे फूलों की ऑनलाइन बुकिंग
+            </div>
+            <div class="admin-badge" id="adminBadgeBtn" onclick="openAdminPinModal()" style="display:none;">
+                <span class="material-icons-round" style="font-size:14px;">admin_panel_settings</span> एडमिन बंद करें
+            </div>
+        </div>
+
+        <!-- Title Box with Hold Event listener for Admin Password -->
+        <div class="main-title-box" id="headerTitleBox">
+            <div class="main-title-row">
+                <span class="material-icons-round star-icon">star</span>
+                <h1>रविंद्र फ्लावर डेकोरेशन</h1>
+                <span class="material-icons-round star-icon">star</span>
+            </div>
+            <div class="subtitle">Ravindra Flower Decoration & Event Organizer</div>
+
+            <!-- Yellow Tag Capsule (Matching Image 2) -->
+            <div class="yellow-tag-capsule">
+                <span class="material-icons-round" style="font-size:16px; color:#880E4F;">star</span>
+                ✨ शादी | हल्दी-मेहंदी | मण्डप | कार एवं पार्टी सजावट ✨
+                <span class="material-icons-round" style="font-size:16px; color:#880E4F;">star</span>
+            </div>
+        </div>
+
+        <!-- Quick Contact Action Buttons -->
+        <div class="hero-actions">
+            <a href="tel:+919876543210" class="hero-btn btn-call" id="callBtn">
+                <span class="material-icons-round">call</span> डायरेक्ट कॉल
+            </a>
+            <a href="https://wa.me/919876543210?text=नमस्ते%20रविंद्र%20जी,%20मुझे%20फ्लावर%20डेकोरेशन%20की%20जानकारी%20चाहिए।" target="_blank" class="hero-btn btn-whatsapp" id="whatsappBtn">
+                <span class="material-icons-round">chat</span> WhatsApp चैट
+            </a>
         </div>
     </div>
 
-    <!-- Categories -->
-    <div class="categories" id="categoryChips">
-        <div class="chip active" onclick="filterCategory('सभी', this)">सभी</div>
-        <div class="chip" onclick="filterCategory('Stage Decor', this)">Stage Decor</div>
-        <div class="chip" onclick="filterCategory('Haldi & Mehendi', this)">Haldi & Mehendi</div>
-        <div class="chip" onclick="filterCategory('Entrance Arch', this)">Entrance Arch</div>
-        <div class="chip" onclick="filterCategory('Mandap', this)">Mandap</div>
-        <div class="chip" onclick="filterCategory('Car Decor', this)">Car Decor</div>
-        <div class="chip" onclick="filterCategory('Room Decor', this)">Room Decor</div>
-        <div class="chip" onclick="filterCategory('Theme Setup', this)">Theme Setup</div>
+    <!-- Admin Status Bar -->
+    <div class="admin-bar" id="adminBar">
+        <span>⚙️ एडमिन मोड चालू (आप पैकेज जोड़, एडिट/डिलीट कर सकते हैं)</span>
+        <button onclick="exitAdminMode()" style="background:#880E4F; color:white; border:none; padding:4px 8px; border-radius:6px; font-weight:bold; cursor:pointer;">बंद करें</button>
     </div>
 
-    <!-- Decor Items Grid -->
-    <div class="decor-grid" id="decorGrid">
-        <!-- Injected dynamically via JS -->
+    <!-- 3. Search & Filter Section (Matching Image 2) -->
+    <div class="search-filter-section">
+        <div class="search-row">
+            <div class="search-pill">
+                <span class="material-icons-round" style="color:#8D7A84;">search</span>
+                <input type="text" id="searchInput" placeholder="खोजें: स्टेज, मण्डप, गेंदा, कार सजावट...">
+            </div>
+            <div class="filter-icon-btn" onclick="toggleSort()">
+                <span class="material-icons-round">filter_list</span>
+            </div>
+        </div>
     </div>
+
+    <!-- Category Scroll Chips -->
+    <div class="categories-scroll" id="categoryChips">
+        <div class="cat-chip active" onclick="filterCategory('सभी', this)">सभी</div>
+        <div class="cat-chip" onclick="filterCategory('Stage Decor', this)">Stage Decor</div>
+        <div class="cat-chip" onclick="filterCategory('Mandap', this)">Mandap</div>
+        <div class="cat-chip" onclick="filterCategory('Haldi & Mehendi', this)">Haldi & Mehendi</div>
+        <div class="cat-chip" onclick="filterCategory('Entrance Arch', this)">Entrance Arch</div>
+        <div class="cat-chip" onclick="filterCategory('Car Decor', this)">Car Decor</div>
+        <div class="cat-chip" onclick="filterCategory('Room Decor', this)">Room Decor</div>
+        <div class="cat-chip" onclick="filterCategory('Theme Setup', this)">Theme Setup</div>
+    </div>
+
+    <!-- 4. Product Cards Grid (Matching Image 2) -->
+    <div class="decor-grid" id="decorGrid"></div>
+
+    <!-- Floating Action Button for Admin -->
+    <div class="admin-fab" id="adminFab" onclick="openAddModal()">+</div>
 
     <!-- Contact & Address Section -->
-    <div class="contact-section">
+    <div class="contact-box">
         <h3><span class="material-icons-round">store</span> संपर्क विवरण एवं दुकान का पता</h3>
-        <div class="contact-item">
-            <span class="material-icons-round">person</span>
-            <span><strong>प्रोपराइटर:</strong> रविंद्र सैनी (Ravindra Saini)</span>
+        <div class="contact-row">
+            <span class="material-icons-round" style="font-size:16px; color:#F48FB1;">person</span>
+            <span id="ownerNameTxt">प्रोपराइटर: रविंद्र सैनी (Ravindra Saini)</span>
         </div>
-        <div class="contact-item">
-            <span class="material-icons-round">location_on</span>
-            <span><strong>पता:</strong> दुकान नं. 12, मेन मार्केट, फ्लावर स्ट्रीट, जीटी रोड</span>
+        <div class="contact-row">
+            <span class="material-icons-round" style="font-size:16px; color:#F48FB1;">location_on</span>
+            <span id="shopAddressTxt">पता: दुकान नं. 12, मेन मार्केट, फ्लावर स्ट्रीट, जीटी रोड</span>
         </div>
-        <div class="contact-item">
-            <span class="material-icons-round">schedule</span>
-            <span><strong>समय:</strong> सुबह 7:00 बजे से रात 10:00 बजे तक (प्रतिदिन)</span>
+        <div class="contact-row">
+            <span class="material-icons-round" style="font-size:16px; color:#F48FB1;">schedule</span>
+            <span id="businessHoursTxt">समय: सुबह 7:00 बजे से रात 10:00 बजे तक (प्रतिदिन)</span>
         </div>
-        <div class="call-buttons">
-            <a href="tel:+919876543210" class="call-btn">
-                <span class="material-icons-round">call</span> +91 98765 43210
-            </a>
-            <a href="https://wa.me/919876543210?text=नमस्ते%20रविंद्र%20जी,%20मुझे%20फ्लावर%20डेकोरेशन%20के%20लिए%20जानकारी%20चाहिए।" class="call-btn" style="background:#25D366;">
-                <span class="material-icons-round">chat</span> WhatsApp करें
-            </a>
+    </div>
+
+    <!-- Modal 1: Admin PIN Password Dialog -->
+    <div class="modal-overlay" id="pinModal">
+        <div class="modal-card">
+            <h3>🔒 एडमिन पिन दर्ज करें</h3>
+            <p style="font-size:12px; color:#B0BEC5; margin-bottom:12px;">एडमिन मोड में प्रवेश करने के लिए 4 अंकों का पिन डालें (डिफ़ॉल्ट पिन: 1234):</p>
+            <div class="modal-field">
+                <input type="password" id="pinInput" maxlength="4" placeholder="1234">
+            </div>
+            <div class="modal-btns">
+                <button class="modal-btn btn-cancel" onclick="closeModal('pinModal')">रद्द करें</button>
+                <button class="modal-btn btn-confirm" onclick="verifyAdminPin()">प्रवेश करें</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Add / Edit Item Dialog -->
+    <div class="modal-overlay" id="itemModal">
+        <div class="modal-card">
+            <h3 id="itemModalTitle">नयी सजावट पैकेज जोड़ें</h3>
+            <div class="modal-field">
+                <label>पैकेज शीर्षक (Title)</label>
+                <input type="text" id="itemTitle">
+            </div>
+            <div class="modal-field">
+                <label>कैटेगरी (Category)</label>
+                <select id="itemCat">
+                    <option value="Stage Decor">Stage Decor</option>
+                    <option value="Mandap">Mandap</option>
+                    <option value="Haldi & Mehendi">Haldi & Mehendi</option>
+                    <option value="Entrance Arch">Entrance Arch</option>
+                    <option value="Car Decor">Car Decor</option>
+                    <option value="Room Decor">Room Decor</option>
+                    <option value="Theme Setup">Theme Setup</option>
+                </select>
+            </div>
+            <div class="modal-field">
+                <label>कीमत ₹ (Price)</label>
+                <input type="number" id="itemPrice">
+            </div>
+            <div class="modal-field">
+                <label>फोटो URL (Image Link)</label>
+                <input type="text" id="itemImg">
+            </div>
+            <div class="modal-field">
+                <label>उपयोग किए गए फूल (Flowers Used)</label>
+                <input type="text" id="itemFlowers">
+            </div>
+            <div class="modal-field">
+                <label>विवरण (Description)</label>
+                <textarea id="itemDesc" rows="3"></textarea>
+            </div>
+            <div class="modal-btns">
+                <button class="modal-btn btn-cancel" onclick="closeModal('itemModal')">रद्द करें</button>
+                <button class="modal-btn btn-confirm" onclick="saveItem()">सेव करें</button>
+            </div>
         </div>
     </div>
 
     <script>
-        const decorItems = [
+        const initialData = [
             {
                 id: 1,
                 title: "रॉयल वेडिंग स्टेज सजावट (Royal Stage Decor)",
@@ -460,8 +818,7 @@
                 price: 25000,
                 imageUrl: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80",
                 description: "ताजे ताजे लाल गुलाब, रजनीगंधा और सफेद आर्किड से सजा शाही स्टेज बैकड्रॉप। एलईडी लाइट और गोल्डन सोफे के साथ पूर्ण सजावट।",
-                flowersUsed: "Red Rose, Rajnigandha, White Orchid",
-                isPopular: true
+                flowersUsed: "Red Rose, Rajnigandha, White Orchid"
             },
             {
                 id: 2,
@@ -470,8 +827,7 @@
                 price: 12500,
                 imageUrl: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=80",
                 description: "गेंदे के ताजे पीले और नारंगी फूलों की खूबसूरत कैनोपी, पीला बैकड्रॉप, फूलों की छाता, और ब्रास पीतल उरली फ्लोटिंग डेकोरेशन।",
-                flowersUsed: "Yellow & Orange Marigold, Jasmine",
-                isPopular: true
+                flowersUsed: "Yellow & Orange Marigold, Jasmine"
             },
             {
                 id: 3,
@@ -480,8 +836,7 @@
                 price: 15000,
                 imageUrl: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80",
                 description: "मेहमानों के शानदार स्वागत के लिए ताजे फूलों का विशाल धनुषाकार गेट। कारनेशन, लिली और गेंदे के फूलों से भरपूर लटकन।",
-                flowersUsed: "Carnation, Dutch Rose, Lily, Marigold",
-                isPopular: true
+                flowersUsed: "Carnation, Dutch Rose, Lily, Marigold"
             },
             {
                 id: 4,
@@ -490,8 +845,7 @@
                 price: 35000,
                 imageUrl: "https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=800&q=80",
                 description: "4 पिलर पारंपरिक वेदिका मण्डप। शुद्ध गुलाब व गेंदे की मालाएं, हवन कुंड डेकोर और ऊपर फूलों की घनी छत।",
-                flowersUsed: "Red Rose, Orange Marigold, Mogra",
-                isPopular: false
+                flowersUsed: "Red Rose, Orange Marigold, Mogra"
             },
             {
                 id: 5,
@@ -500,8 +854,7 @@
                 price: 3500,
                 imageUrl: "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=800&q=80",
                 description: "दुल्हे की कार के बोनट पर दिल के आकार में ताजे लाल गुलाब और सफेद आर्किड की आकर्षक सजावट।",
-                flowersUsed: "Dutch Red Roses, White Orchids",
-                isPopular: true
+                flowersUsed: "Dutch Red Roses, White Orchids"
             },
             {
                 id: 6,
@@ -510,8 +863,7 @@
                 price: 6000,
                 imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
                 description: "कमरे व बेड के लिए सुगंधित ताजे गुलाब की पंखुड़ियों की मनमोहक रंगोली और लटकती गुलाब मालाएं।",
-                flowersUsed: "Fragrant Rose Petals, Mogra Garlands",
-                isPopular: false
+                flowersUsed: "Fragrant Rose Petals, Mogra Garlands"
             },
             {
                 id: 7,
@@ -520,8 +872,7 @@
                 price: 18000,
                 imageUrl: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80",
                 description: "आधुनिक स्टाइल की पिंक और वाइट रोज वॉल बैकड्रॉप। साथ में कस्टम नियॉन लाइट साइनबोर्ड।",
-                flowersUsed: "Pink Roses, Baby's Breath, White Carnations",
-                isPopular: true
+                flowersUsed: "Pink Roses, Baby's Breath, White Carnations"
             },
             {
                 id: 8,
@@ -530,13 +881,15 @@
                 price: 4500,
                 imageUrl: "https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80",
                 description: "गोलाकार मैटल फ्रेम पर ताजे फूलों और बैलून का कॉम्बिनेशन। एनिवर्सरी या जन्मदिन के लिए परफेक्ट।",
-                flowersUsed: "Mix Roses, Chrysanthemums, Eucalyptus",
-                isPopular: false
+                flowersUsed: "Mix Roses, Chrysanthemums, Eucalyptus"
             }
         ];
 
+        let decorItems = JSON.parse(localStorage.getItem('ravindra_decor_items')) || initialData;
         let currentCategory = 'सभी';
         let searchQuery = '';
+        let isAdmin = false;
+        let editingItemId = null;
 
         function renderGrid() {
             const grid = document.getElementById('decorGrid');
@@ -557,23 +910,27 @@
 
             filtered.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'card';
+                card.className = 'decor-card';
                 const whatsappMsg = encodeURIComponent(`नमस्ते रविंद्र जी, मुझे "${item.title}" (₹${item.price.toLocaleString('en-IN')}) की बुकिंग के बारे में जानना है।`);
 
                 card.innerHTML = `
-                    <div class="card-img-wrap">
+                    <div class="card-hero-wrap">
                         <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
-                        ${item.isPopular ? `<span class="popular-badge">★ पॉप्युलर</span>` : ''}
+                        <div class="badge-category">${item.category}</div>
+                        <div class="badge-price">₹${item.price.toLocaleString('en-IN')}</div>
                     </div>
-                    <div class="card-content">
+                    <div class="card-body">
                         <div class="card-title">${item.title}</div>
                         <div class="card-flowers"><span class="material-icons-round" style="font-size:14px;">local_florist</span> ${item.flowersUsed}</div>
                         <div class="card-desc">${item.description}</div>
-                        <div class="card-footer">
-                            <div class="card-price">₹${item.price.toLocaleString('en-IN')}</div>
-                            <a href="https://wa.me/919876543210?text=${whatsappMsg}" target="_blank" class="book-btn">
+                        <div class="card-actions">
+                            <a href="https://wa.me/919876543210?text=${whatsappMsg}" target="_blank" class="btn-card-book">
                                 <span class="material-icons-round" style="font-size:16px;">chat</span> बुक करें
                             </a>
+                            ${isAdmin ? `
+                                <button class="btn-card-edit" onclick="editItem(${item.id})">एडिट</button>
+                                <button class="btn-card-delete" onclick="deleteItem(${item.id})">हटाएं</button>
+                            ` : ''}
                         </div>
                     </div>
                 `;
@@ -583,7 +940,7 @@
 
         function filterCategory(cat, element) {
             currentCategory = cat;
-            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
             element.classList.add('active');
             renderGrid();
         }
@@ -593,7 +950,126 @@
             renderGrid();
         });
 
-        // PWA Registration & Install Banner Prompt
+        /* --- Admin Hold / Touch Long Press Logic without Text Selection --- */
+        let pressTimer;
+        const titleBox = document.getElementById('headerTitleBox');
+
+        function startPressTimer() {
+            pressTimer = setTimeout(() => {
+                openAdminPinModal();
+            }, 1200); // 1.2s hold triggers Admin PIN dialog
+        }
+
+        function cancelPressTimer() {
+            clearTimeout(pressTimer);
+        }
+
+        titleBox.addEventListener('touchstart', startPressTimer, {passive: true});
+        titleBox.addEventListener('touchend', cancelPressTimer);
+        titleBox.addEventListener('touchcancel', cancelPressTimer);
+        titleBox.addEventListener('mousedown', startPressTimer);
+        titleBox.addEventListener('mouseup', cancelPressTimer);
+        titleBox.addEventListener('mouseleave', cancelPressTimer);
+
+        function openAdminPinModal() {
+            if (isAdmin) {
+                exitAdminMode();
+                return;
+            }
+            document.getElementById('pinInput').value = '';
+            document.getElementById('pinModal').style.display = 'flex';
+        }
+
+        function verifyAdminPin() {
+            const pin = document.getElementById('pinInput').value;
+            if (pin === '1234') {
+                isAdmin = true;
+                closeModal('pinModal');
+                document.getElementById('adminBar').style.display = 'flex';
+                document.getElementById('adminFab').style.display = 'flex';
+                document.getElementById('adminBadgeBtn').style.display = 'flex';
+                renderGrid();
+                alert('एडमिन मोड चालू हो गया! अब आप पैकेज एडिट या डिलीट कर सकते हैं।');
+            } else {
+                alert('गलत पिन! डिफ़ॉल्ट पिन 1234 है।');
+            }
+        }
+
+        function exitAdminMode() {
+            isAdmin = false;
+            document.getElementById('adminBar').style.display = 'none';
+            document.getElementById('adminFab').style.display = 'none';
+            document.getElementById('adminBadgeBtn').style.display = 'none';
+            renderGrid();
+        }
+
+        function openAddModal() {
+            editingItemId = null;
+            document.getElementById('itemModalTitle').innerText = 'नयी सजावट पैकेज जोड़ें';
+            document.getElementById('itemTitle').value = '';
+            document.getElementById('itemPrice').value = '';
+            document.getElementById('itemImg').value = 'https://images.unsplash.com/photo-1519225421980-715cb0215aed';
+            document.getElementById('itemFlowers').value = 'Red Rose, Marigold';
+            document.getElementById('itemDesc').value = '';
+            document.getElementById('itemModal').style.display = 'flex';
+        }
+
+        function editItem(id) {
+            const item = decorItems.find(i => i.id === id);
+            if (!item) return;
+            editingItemId = id;
+            document.getElementById('itemModalTitle').innerText = 'पैकेज एडिट करें';
+            document.getElementById('itemTitle').value = item.title;
+            document.getElementById('itemCat').value = item.category;
+            document.getElementById('itemPrice').value = item.price;
+            document.getElementById('itemImg').value = item.imageUrl;
+            document.getElementById('itemFlowers').value = item.flowersUsed;
+            document.getElementById('itemDesc').value = item.description;
+            document.getElementById('itemModal').style.display = 'flex';
+        }
+
+        function saveItem() {
+            const title = document.getElementById('itemTitle').value;
+            const cat = document.getElementById('itemCat').value;
+            const price = parseFloat(document.getElementById('itemPrice').value) || 0;
+            const img = document.getElementById('itemImg').value;
+            const flowers = document.getElementById('itemFlowers').value;
+            const desc = document.getElementById('itemDesc').value;
+
+            if (!title) { alert('कृपया पैकेज का शीर्षक दर्ज करें'); return; }
+
+            if (editingItemId) {
+                const index = decorItems.findIndex(i => i.id === editingItemId);
+                if (index !== -1) {
+                    decorItems[index] = { id: editingItemId, title, category: cat, price, imageUrl: img, flowersUsed: flowers, description: desc };
+                }
+            } else {
+                const newId = Date.now();
+                decorItems.push({ id: newId, title, category: cat, price, imageUrl: img, flowersUsed: flowers, description: desc });
+            }
+
+            localStorage.setItem('ravindra_decor_items', JSON.stringify(decorItems));
+            closeModal('itemModal');
+            renderGrid();
+        }
+
+        function deleteItem(id) {
+            if (confirm('क्या आप सच में इस पैकेज को हटाना चाहते हैं?')) {
+                decorItems = decorItems.filter(i => i.id !== id);
+                localStorage.setItem('ravindra_decor_items', JSON.stringify(decorItems));
+                renderGrid();
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function dismissBanner() {
+            document.getElementById('installBanner').style.display = 'none';
+        }
+
+        // PWA Installation
         let deferredPrompt;
         const installBanner = document.getElementById('installBanner');
         const installBtn = document.getElementById('installBtn');
@@ -620,7 +1096,10 @@
             }
         });
 
-        // Initial Render
+        // Set Current Host URL in Install Banner
+        document.getElementById('bannerUrl').innerText = window.location.hostname || "www.ravindraflower.com";
+
+        // Initial Grid Render
         renderGrid();
     </script>
 </body>
