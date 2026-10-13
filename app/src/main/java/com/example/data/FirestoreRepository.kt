@@ -133,28 +133,7 @@ class FirestoreRepository(
     }
 
     suspend fun seedInitialDataIfEmpty() {
-        try {
-            val snapshot = collectionRef.get().await()
-            if (snapshot == null || snapshot.isEmpty) {
-                DefaultData.initialDecorations.forEach { item ->
-                    val docId = item.docId.ifBlank { "decor_${item.id}" }
-                    val map = mapOf(
-                        "id" to item.id,
-                        "docId" to docId,
-                        "title" to item.title,
-                        "category" to item.category,
-                        "price" to item.price,
-                        "imageUrl" to item.imageUrl,
-                        "description" to item.description,
-                        "flowersUsed" to item.flowersUsed,
-                        "isPopular" to item.isPopular,
-                        "isAvailable" to item.isAvailable
-                    )
-                    collectionRef.document(docId).set(map).await()
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        // Do nothing to ensure existing user uploaded data is never overwritten or reset
+        return
     }
 }
