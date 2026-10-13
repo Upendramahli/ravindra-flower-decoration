@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:pivotX="54"
+        android:pivotY="54"
+        android:scaleX="0.7"
+        android:scaleY="0.7">
+        <!-- Flower Petals Outer -->
+        <path
+            android:fillColor="#FFC107"
+            android:pathData="M54,20 C58,30 68,30 74,24 C72,32 80,38 88,36 C82,44 88,52 94,54 C88,56 82,64 88,72 C80,70 72,76 74,84 C68,78 58,78 54,88 C50,78 40,78 34,84 C36,76 28,70 20,72 C26,64 20,56 14,54 C20,52 26,44 20,36 C28,38 36,32 34,24 C40,30 50,30 54,20 Z" />
+        <!-- Inner Petals -->
+        <path
+            android:fillColor="#FF9800"
+            android:pathData="M54,28 C57,35 64,35 68,31 C67,37 73,41 78,40 C74,45 78,51 82,54 C78,57 74,63 78,68 C73,67 67,71 68,77 C64,73 57,73 54,80 C51,73 44,73 40,77 C41,71 35,67 30,68 C34,63 30,57 26,54 C30,51 34,45 30,40 C35,41 41,37 40,31 C44,35 51,35 54,28 Z" />
+        <!-- Center Core -->
+        <path
+            android:fillColor="#E65100"
+            android:pathData="M54,40 A14,14 0 1,0 54,68 A14,14 0 1,0 54,40 Z" />
+        <!-- Gold Accent Dot -->
+        <path
+            android:fillColor="#FFF59D"
+            android:pathData="M54,48 A6,6 0 1,0 54,60 A6,6 0 1,0 54,48 Z" />
+    </group>
+</vector>

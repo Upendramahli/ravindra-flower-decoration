@@ -1,0 +1,6 @@
+{
+  "name": "Ravindra Flower Decor",
+  "description": "Single page catalog & WhatsApp booking for Ravindra Flower Decoration with local admin mode",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
