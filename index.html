@@ -524,6 +524,11 @@
             line-height: 1.4;
             margin-bottom: 12px;
             flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .card-actions {
@@ -1408,16 +1413,23 @@
             filtered.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'decor-card';
+                card.style.cursor = 'pointer';
+                card.onclick = (e) => {
+                    // Prevent triggering if clicked on buttons or links
+                    if (e.target.closest('button') || e.target.closest('a')) return;
+                    openDetailModal(item.docId || item.id);
+                };
+
                 const whatsappMsg = encodeURIComponent(`नमस्ते रविंद्र जी, मुझे "${item.title}" (₹${Number(item.price).toLocaleString('en-IN')}) की बुकिंग के बारे में जानना है।`);
 
                 card.innerHTML = `
-                    <div class="card-hero-wrap" onclick="openDetailModal('${item.docId || item.id}')">
+                    <div class="card-hero-wrap">
                         <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
                         <div class="badge-category">${item.category}</div>
                         <div class="badge-price">₹${Number(item.price).toLocaleString('en-IN')}</div>
                     </div>
                     <div class="card-body">
-                        <div class="card-title" onclick="openDetailModal('${item.docId || item.id}')" style="cursor:pointer;">${item.title}</div>
+                        <div class="card-title">${item.title}</div>
                         <div class="card-flowers"><span class="material-icons-round" style="font-size:14px;">local_florist</span> ${item.flowersUsed || 'ताजे फूल'}</div>
                         <div class="card-desc">${item.description || ''}</div>
                         <div class="card-actions">
