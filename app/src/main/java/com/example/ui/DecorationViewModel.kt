@@ -169,7 +169,7 @@ class DecorationViewModel(
 
     fun onSearchQueryChange(newQuery: String) {
         val trimmed = newQuery.lowercase().trim()
-        if (trimmed == "admin" || trimmed == "1234" || trimmed == "#admin" || trimmed == "pass") {
+        if (trimmed == "admin" || trimmed == "#admin") {
             searchQuery.value = ""
             showAdminPinDialog.value = true
         } else {
@@ -198,7 +198,7 @@ class DecorationViewModel(
         val cleanPin = pin.trim()
         val expectedCallingPin = getCallingNumberLast4Digits()
 
-        if (cleanPin == expectedCallingPin || cleanPin == "1234") {
+        if (cleanPin == expectedCallingPin) {
             isAdminMode.value = true
             showAdminPinDialog.value = false
             adminPinInput.value = ""
@@ -206,7 +206,7 @@ class DecorationViewModel(
             toastMessage.value = "एडमिन मोड सफलता पूर्वक अनलॉक हो गया!"
             return true
         } else {
-            pinError.value = "गलत PIN! केवल आपके कॉलिंग मोबाइल नंबर के आखिरी 4 अंक ही पासवर्ड हैं।"
+            pinError.value = "गलत PIN! केवल कॉलिंग मोबाइल नंबर के आखिरी 4 अंक ही एडमिन पासवर्ड हैं।"
             return false
         }
     }

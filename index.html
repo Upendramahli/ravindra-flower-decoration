@@ -946,9 +946,9 @@
     <div class="modal-overlay" id="pinModal">
         <div class="modal-card">
             <h3>🔒 एडमिन पिन दर्ज करें</h3>
-            <p style="font-size:12px; color:#B0BEC5; margin-bottom:12px;">एडमिन मोड में प्रवेश करने के लिए 4 अंकों का पिन डालें (डिफ़ॉल्ट पिन: 1234):</p>
+            <p style="font-size:12px; color:#B0BEC5; margin-bottom:12px;">एडमिन मोड में प्रवेश करने के लिए <b>केवल कॉलिंग मोबाइल नंबर</b> के आखिरी 4 अंक दर्ज करें:</p>
             <div class="modal-field">
-                <input type="password" id="pinInput" maxlength="4" placeholder="1234">
+                <input type="password" id="pinInput" maxlength="4" placeholder="****" onkeyup="if(event.key==='Enter') verifyAdminPin()">
             </div>
             <div class="modal-btns">
                 <button class="modal-btn btn-cancel" onclick="closeModal('pinModal')">रद्द करें</button>
@@ -982,8 +982,17 @@
                 <input type="number" id="itemPrice">
             </div>
             <div class="modal-field">
-                <label>फोटो URL (Image Link)</label>
-                <input type="text" id="itemImg">
+                <label>फोटो URL / गैलरी से अपलोड करें</label>
+                <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+                    <input type="text" id="itemImg" placeholder="https://... या गैलरी से अपलोड करें" style="flex: 1;" oninput="update43PreviewFromUrl()">
+                    <button type="button" onclick="document.getElementById('itemFileInput').click()" style="padding: 8px 12px; background: #00C853; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; white-space: nowrap;">🖼️ गैलरी (Gallery)</button>
+                </div>
+                <input type="file" id="itemFileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+                <div id="imgPreview43Container" style="display:none; margin-top:8px; text-align:center; background:#F5F5F5; padding:8px; border-radius:8px; border:1px dashed #00C853;">
+                    <span style="font-size:11px; color:#00C853; font-weight:bold;">✓ 4:3 Aspect Ratio Ready</span>
+                    <br>
+                    <img id="itemImgPreview" style="aspect-ratio: 4/3; width: 140px; object-fit: cover; border-radius: 8px; border: 2px solid #00C853; margin-top: 4px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+                </div>
             </div>
             <div class="modal-field">
                 <label>उपयोग किए गए फूल (Flowers Used)</label>
@@ -996,6 +1005,45 @@
             <div class="modal-btns">
                 <button class="modal-btn btn-cancel" onclick="closeModal('itemModal')">रद्द करें</button>
                 <button class="modal-btn btn-confirm" onclick="saveItem()">सेव करें</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: 4:3 Image Zoom & Crop Editor -->
+    <div class="modal-overlay" id="cropModal" style="z-index: 2000;">
+        <div class="modal-card" style="max-width: 420px; text-align: center;">
+            <h3 style="margin-bottom: 6px;">📷 4:3 फोटो एडिटर (Zoom & Crop)</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 12px;">गैलरी फोटो को 4:3 रेशियो में ज़ूम इन/आउट या एड्ज़स्ट करें:</p>
+            
+            <!-- 4:3 Viewport Frame -->
+            <div style="width: 100%; aspect-ratio: 4 / 3; background: #111; border: 2px dashed #00C853; border-radius: 12px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; box-shadow: inset 0 0 10px rgba(0,0,0,0.8);">
+                <img id="cropImgTarget" src="" style="max-width: none; position: absolute; transform-origin: center center; transition: transform 0.05s linear;">
+            </div>
+
+            <!-- Controls: Zoom In, Zoom Out, Reset -->
+            <div style="background: #F0F4F8; padding: 12px; border-radius: 10px; margin-bottom: 14px;">
+                <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 10px;">
+                    <button type="button" onclick="adjustZoom(-0.15)" style="padding: 8px 14px; background: #E0E0E0; color:#333; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">🔍 ➖ Zoom Out</button>
+                    <span id="zoomLevelTxt" style="font-size: 14px; font-weight: bold; color: #0288D1;">100%</span>
+                    <button type="button" onclick="adjustZoom(0.15)" style="padding: 8px 14px; background: #0288D1; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">🔍 ➕ Zoom In</button>
+                    <button type="button" onclick="resetZoom()" style="padding: 8px 12px; background: #757575; color: white; border: none; border-radius: 6px; font-size: 12px; cursor: pointer;">🔄 Reset</button>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: #444; text-align: left;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="width: 110px;">horizontal position:</span>
+                        <input type="range" id="panXRange" min="-180" max="180" value="0" oninput="updateCropTransform()" style="flex:1;">
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="width: 110px;">vertical position:</span>
+                        <input type="range" id="panYRange" min="-180" max="180" value="0" oninput="updateCropTransform()" style="flex:1;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-btns">
+                <button class="modal-btn btn-cancel" onclick="closeModal('cropModal')">रद्द करें</button>
+                <button class="modal-btn btn-confirm" onclick="applyCroppedImage()">✅ 4:3 फोटो सेव करें</button>
             </div>
         </div>
     </div>
@@ -1320,7 +1368,7 @@
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
                 const val = e.target.value.toLowerCase().trim();
-                if (val === 'admin' || val === '1234' || val === '#admin' || val === 'pass') {
+                if (val === 'admin' || val === '#admin') {
                     e.target.value = '';
                     searchQuery = '';
                     openAdminPinModal();
@@ -1359,22 +1407,38 @@
                 exitAdminMode();
                 return;
             }
-            document.getElementById('pinInput').value = '';
+            const pinEl = document.getElementById('pinInput');
+            if (pinEl) {
+                pinEl.value = '';
+                setTimeout(() => pinEl.focus(), 100);
+            }
             document.getElementById('pinModal').style.display = 'flex';
         }
 
         function verifyAdminPin() {
-            const pin = document.getElementById('pinInput').value;
-            if (pin === '1234' || pin === '4321') {
+            const rawPin = document.getElementById('pinInput').value || '';
+            const pin = rawPin.trim();
+
+            // Extract last 4 digits of current calling phone number
+            let expectedPin = '';
+            const callBtn = document.getElementById('callBtn');
+            if (callBtn && callBtn.href) {
+                const digits = callBtn.href.replace(/\D/g, '');
+                if (digits.length >= 4) {
+                    expectedPin = digits.slice(-4);
+                }
+            }
+
+            if (expectedPin && pin === expectedPin) {
                 isAdmin = true;
                 closeModal('pinModal');
                 document.getElementById('adminBar').style.display = 'flex';
                 document.getElementById('adminFab').style.display = 'flex';
                 document.getElementById('adminBadgeBtn').style.display = 'flex';
                 renderGrid();
-                alert('एडमिन मोड चालू हो गया! अब आप पैकेज एडिट या डिलीट कर सकते हैं।');
+                alert('एडमिन मोड सफलता पूर्वक चालू हो गया!');
             } else {
-                alert('गलत पिन! डिफ़ॉल्ट पिन 1234 या कॉलिंग नंबर के आखिरी 4 अंक हैं।');
+                alert('गलत पिन! एडमिन पासवर्ड केवल कॉलिंग मोबाइल नंबर के आखिरी 4 अंक हैं।');
             }
         }
 
@@ -1386,6 +1450,110 @@
             renderGrid();
         }
 
+        /* --- 4:3 Image Upload, Zoom & Crop System --- */
+        let currentCropScale = 1.0;
+        let cropPanX = 0;
+        let cropPanY = 0;
+        let originalLoadedImage = null;
+
+        function update43PreviewFromUrl() {
+            const url = document.getElementById('itemImg').value;
+            const previewImg = document.getElementById('itemImgPreview');
+            const previewContainer = document.getElementById('imgPreview43Container');
+            if (url && previewImg && previewContainer) {
+                previewImg.src = url;
+                previewContainer.style.display = 'block';
+            } else if (previewContainer) {
+                previewContainer.style.display = 'none';
+            }
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    originalLoadedImage = img;
+                    document.getElementById('cropImgTarget').src = e.target.result;
+                    resetZoom();
+                    document.getElementById('cropModal').style.display = 'flex';
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            event.target.value = ''; // Reset input
+        }
+
+        function adjustZoom(delta) {
+            currentCropScale = Math.max(0.4, Math.min(3.5, currentCropScale + delta));
+            updateCropTransform();
+        }
+
+        function resetZoom() {
+            currentCropScale = 1.0;
+            cropPanX = 0;
+            cropPanY = 0;
+            const panX = document.getElementById('panXRange');
+            const panY = document.getElementById('panYRange');
+            if (panX) panX.value = 0;
+            if (panY) panY.value = 0;
+            updateCropTransform();
+        }
+
+        function updateCropTransform() {
+            cropPanX = parseInt(document.getElementById('panXRange').value) || 0;
+            cropPanY = parseInt(document.getElementById('panYRange').value) || 0;
+            const imgEl = document.getElementById('cropImgTarget');
+            if (imgEl) {
+                imgEl.style.transform = `translate(${cropPanX}px, ${cropPanY}px) scale(${currentCropScale})`;
+            }
+            const zoomTxt = document.getElementById('zoomLevelTxt');
+            if (zoomTxt) {
+                zoomTxt.innerText = Math.round(currentCropScale * 100) + '%';
+            }
+        }
+
+        function applyCroppedImage() {
+            if (!originalLoadedImage) return;
+
+            const canvas = document.createElement('canvas');
+            const targetWidth = 800;
+            const targetHeight = 600; // Standard 4:3 Ratio
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, targetWidth, targetHeight);
+
+            // Compute draw dimensions keeping image aspect ratio
+            const imgAspect = originalLoadedImage.width / originalLoadedImage.height;
+            const canvasAspect = targetWidth / targetHeight; // 1.3333
+
+            let drawW, drawH;
+            if (imgAspect > canvasAspect) {
+                drawH = targetHeight * currentCropScale;
+                drawW = drawH * imgAspect;
+            } else {
+                drawW = targetWidth * currentCropScale;
+                drawH = drawW / imgAspect;
+            }
+
+            const offsetX = (targetWidth - drawW) / 2 + (cropPanX * 2);
+            const offsetY = (targetHeight - drawH) / 2 + (cropPanY * 2);
+
+            ctx.drawImage(originalLoadedImage, offsetX, offsetY, drawW, drawH);
+
+            const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+            document.getElementById('itemImg').value = croppedDataUrl;
+            update43PreviewFromUrl();
+            closeModal('cropModal');
+        }
+
         function openAddModal() {
             editingItemId = null;
             document.getElementById('itemModalTitle').innerText = 'नयी सजावट पैकेज जोड़ें';
@@ -1394,6 +1562,7 @@
             document.getElementById('itemImg').value = 'https://images.unsplash.com/photo-1519225421980-715cb0215aed';
             document.getElementById('itemFlowers').value = 'Red Rose, Marigold';
             document.getElementById('itemDesc').value = '';
+            update43PreviewFromUrl();
             document.getElementById('itemModal').style.display = 'flex';
         }
 
@@ -1408,6 +1577,7 @@
             document.getElementById('itemImg').value = item.imageUrl;
             document.getElementById('itemFlowers').value = item.flowersUsed;
             document.getElementById('itemDesc').value = item.description;
+            update43PreviewFromUrl();
             document.getElementById('itemModal').style.display = 'flex';
         }
 
