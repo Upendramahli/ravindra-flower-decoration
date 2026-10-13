@@ -10,6 +10,10 @@
     <meta name="keywords" content="Ravindra Flower Decoration, Ravindra Saini, Flower Decorator, Wedding Stage Decor, Mandap Decor, Haldi Decor, Bridal Car Decor, Flower decoration near me">
     <meta name="author" content="Ravindra Saini">
     <meta name="theme-color" content="#880E4F">
+    <!-- Prevent Browser Stale Caching -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 
     <!-- OpenGraph Meta Tags for Social Media & Google -->
     <meta property="og:title" content="Ravindra Flower Decoration - शादी एवं इवेंट सजावट">
@@ -1322,7 +1326,9 @@
         const installBtn = document.getElementById('installBtn');
 
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').catch(() => {});
+            navigator.serviceWorker.register('sw.js?v=' + Date.now()).then((reg) => {
+                reg.update();
+            }).catch(() => {});
         }
 
         window.addEventListener('beforeinstallprompt', (e) => {
